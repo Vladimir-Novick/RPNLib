@@ -11,7 +11,7 @@ namespace com.sgcombo.RpnLib
         public void TestMethod1()
         {
             String sourceString = "4/12*100+(2*7)";
-            TestExpression(sourceString, "47.3333333333");
+            TestExpression(sourceString, "47.3333333333333");
         }
 
         [TestMethod]
@@ -20,6 +20,15 @@ namespace com.sgcombo.RpnLib
             String sourceString = "((15 / (7 - (1 + 1))) * 3) - (2 + (1 + 1)) ";
             TestExpression(sourceString, "5");
         }
+
+        [TestMethod]
+        public void TestMethodFunctions()
+        {
+            String sourceString = "ACOS(-1)";
+            TestExpression(sourceString);
+        }
+
+
 
         private static void TestExpression(string sourceString,string verify = null)
         {
@@ -32,6 +41,7 @@ namespace com.sgcombo.RpnLib
             if (verify != null)
             {
                 Console.WriteLine("verify  " + verify);
+                Assert.IsTrue(rezult.ToString().Equals(verify.ToString()));
             }
         }
 

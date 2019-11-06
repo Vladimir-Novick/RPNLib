@@ -11,10 +11,11 @@ namespace com.sgcombo.RpnLib
         private List<RPNToken> Tokens = new List<RPNToken>();
         private Stack<object> al;
         private Dictionary<string, RPNArguments> vars = new Dictionary<string, RPNArguments>();
-
+        private RPNEnvironment Environment = new RPNEnvironment();
         public RPNExec(List<RPNToken> _Tokens)
         {
             Tokens = _Tokens;
+            RPNFunctions.RegisterFunctions(Environment);
         }
 
 
@@ -53,54 +54,111 @@ namespace com.sgcombo.RpnLib
                         al.Push(tok.Substring(1,tok.Length-2));
                         break;
                     case RPNTokenType.OPERAND:
-                        double r = 0;
-                        switch (tok[0])
+                        object r = 0;
+                        if (Tokens[i].OperandType == RPNOperandType.Function)
                         {
-                            case '+':
-                                a = Convert.ToDouble(al.Pop());
-                                b = Convert.ToDouble(al.Pop());
-                                r = a + b;
+
+                            if (this.Environment != null)
+                            {
+                                double r1 = 0;
 #if DEBUG
-                                Console.WriteLine($"{b} + {a} = {r}");
-#endif
-                                break;
-                            case '-':
-                                a = Convert.ToDouble(al.Pop());
-                                b = Convert.ToDouble(al.Pop());
-                                r = b - a;
-#if DEBUG
-                                Console.WriteLine($"{b} - {a} = {r}");
-#endif
-                                break;
-                            case '*':
-                                a = Convert.ToDouble(al.Pop());
-                                b = Convert.ToDouble(al.Pop());
-                                r = a * b;
-#if DEBUG
-                                Console.WriteLine($"{b} * {a} = {r}");
+                                String argumentList = "";
 #endif
 
-                                break;
-                            case '/':
-                                a = Convert.ToDouble(al.Pop());
-                                b = Convert.ToDouble(al.Pop());
-                                r = (b / a);
+                                String funcName = Tokens[i].sToken;
+                                funcName = funcName.Substring(0, funcName.Length - 1);
 
-#if DEBUG
-                                Console.WriteLine($"{b} / {a} = {r}");
-#endif
-                                break;
-                            case '^':
-                                a = Convert.ToDouble(al.Pop());
-                                b = Convert.ToDouble(al.Pop());
-                                r = Math.Pow(b, a);
-#if DEBUG
-                                Console.WriteLine($"{b} ^ {a} = {r}");
-#endif
 
-                                break;
+                                var func = this.Environment.FindFunction(funcName);
+                                if (func != null)
+                                {
+                                    FunctionAttribute funcAttrib = (FunctionAttribute)Attribute.GetCustomAttribute(func.GetType(), typeof(FunctionAttribute));
+                                    List<object> arguments = new List<object>();
+
+
+
+                                    if (funcAttrib.ParamTypes != null && funcAttrib.ParamTypes.Length > 0)
+                                    {
+                                        foreach (var paramType in funcAttrib.ParamTypes)
+                                        {
+                                            object obj = al.Pop();
+                                            a = Convert.ToDouble(obj);
+                                            func.Params.Add(a);
+#if DEBUG
+                                            argumentList += " ";
+                                            argumentList += a.ToString();
+#endif
+                                        }
+
+                                    }
+
+                                    object retObject = func.Calc();
+                                    r1 = Convert.ToDouble(retObject);
+                                    al.Push(r1);
+
+                                    //   al.Push(r);
+                                }
+#if DEBUG
+                                Console.WriteLine($"Function , {funcName}  = {r1}");
+#endif
+                            }
                         }
-                        
+                        else
+                        {
+                         
+                            switch (tok[0])
+                            {
+                                case '+':
+                                    a = Convert.ToDouble(al.Pop());
+                                    b = Convert.ToDouble(al.Pop());
+                                    r = a + b;
+#if DEBUG
+                                    Console.WriteLine($"{b} + {a} = {r}");
+#endif
+                                    break;
+                                case '-':
+                                    a = Convert.ToDouble(al.Pop());
+                                    if (al.Count > 0)
+                                    {
+                                        b = Convert.ToDouble(al.Pop());
+                                        r = b - a;
+#if DEBUG
+                                        Console.WriteLine($"{b} - {a} = {r}");
+#endif
+                                    } else
+                                    {
+                                        r = -a;
+                                    }
+                                    break;
+                                case '*':
+                                    a = Convert.ToDouble(al.Pop());
+                                    b = Convert.ToDouble(al.Pop());
+                                    r = a * b;
+#if DEBUG
+                                    Console.WriteLine($"{b} * {a} = {r}");
+#endif
+
+                                    break;
+                                case '/':
+                                    a = Convert.ToDouble(al.Pop());
+                                    b = Convert.ToDouble(al.Pop());
+                                    r = (b / a);
+
+#if DEBUG
+                                    Console.WriteLine($"{b} / {a} = {r}");
+#endif
+                                    break;
+                                case '^':
+                                    a = Convert.ToDouble(al.Pop());
+                                    b = Convert.ToDouble(al.Pop());
+                                    r = Math.Pow(b, a);
+#if DEBUG
+                                    Console.WriteLine($"{b} ^ {a} = {r}");
+#endif
+
+                                    break;
+                            }
+                        }
                         al.Push(r);
                         break;
                 }

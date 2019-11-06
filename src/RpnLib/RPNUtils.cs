@@ -165,6 +165,7 @@ namespace com.sgcombo.RpnLib
                     tok = expr[i].ToString();
                     token.sType = RPNTokenType.OPERAND;
                     token.sToken = tok;
+                    token.OperandType = RPNOperandType.Arifmetical;
                     Tokens.Add(token);
                     i++;
                     if (i > expr.Length - 1) { break; }

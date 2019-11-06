@@ -28,6 +28,7 @@ namespace com.sgcombo.RpnLib
         And,
         Not,
         JustPlus,
-        JustMinus
+        JustMinus,
+        Arifmetical
     }
 }
