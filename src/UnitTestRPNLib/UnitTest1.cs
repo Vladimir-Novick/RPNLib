@@ -28,6 +28,12 @@ namespace com.sgcombo.RpnLib
             TestExpression(sourceString);
         }
 
+        [TestMethod]
+        public void TestMethodDATE()
+        {
+            String sourceString = "DATE()";
+            TestExpression(sourceString);
+        }
 
 
         private static void TestExpression(string sourceString,string verify = null)

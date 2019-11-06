@@ -93,13 +93,13 @@ namespace com.sgcombo.RpnLib
                                     }
 
                                     object retObject = func.Calc();
-                                    r1 = Convert.ToDouble(retObject);
-                                    al.Push(r1);
+                                 
+                                    al.Push(retObject);
 
                                     //   al.Push(r);
                                 }
 #if DEBUG
-                                Console.WriteLine($"Function , {funcName}  = {r1}");
+                                Console.WriteLine($"Function , {funcName}  = {r.ToString()}");
 #endif
                             }
                         }
