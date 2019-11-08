@@ -6,8 +6,7 @@ namespace com.sgcombo.RpnLib
     internal class RPNUtils
     {
 
-        private static char[] operators = { '+', '-', '*', '/', '<', '>', '=', '%','^','(',')' };
-        private static string[] doubleOperators = { "<>", ">=", "<=", "%=", "/=" };
+
         public static bool IsWhiteSpace(char chr)
         {
             return char.IsWhiteSpace(chr) || chr == '\r' || chr == '\n' || chr == '\t';
@@ -15,13 +14,23 @@ namespace com.sgcombo.RpnLib
 
         public static bool isOperation(char c)
         {
-            for (int i = 0; i < operators.Length; i++)
-                if (c == operators[i])
+            for (int i = 0; i < OperationConvertor.operators.Length; i++)
+                if (c == OperationConvertor.operators[i])
                     return true;
 
             return false;
         }
-        public static bool GetTokens(string expr , List<RPNToken> Tokens)
+
+        public static bool isDoubleOperation(string c)
+        {
+            for (int i = 0; i < OperationConvertor.doubleOperators.Length; i++)
+                if (c == OperationConvertor.doubleOperators[i])
+                    return true;
+
+            return false;
+        }
+
+        public static bool GetTokens(string expr, List<RPNToken> Tokens)
         {
 
 
@@ -56,7 +65,8 @@ namespace com.sgcombo.RpnLib
                     {
                         tok += expr[i];
                         i++;
-                        if (i > expr.Length - 1) {
+                        if (i > expr.Length - 1)
+                        {
                             throw new Exception($"Invalid string [{tok}]");
                         }
                     }
@@ -102,7 +112,8 @@ namespace com.sgcombo.RpnLib
                     {
                         tok += expr[i];
                         i++;
-                        if (i > expr.Length - 1) {
+                        if (i > expr.Length - 1)
+                        {
                             throw new Exception($"Invalid string [{tok}]");
                         }
                     }
@@ -129,7 +140,7 @@ namespace com.sgcombo.RpnLib
                         if (i > expr.Length - 1) { break; }
                     }
                     token.sType = RPNTokenType.ALPHA;
-                    if (i < expr.Length )
+                    if (i < expr.Length)
                     {
                         if (expr[i] == '(')
                         {
@@ -160,12 +171,59 @@ namespace com.sgcombo.RpnLib
                     token.sToken = tok;
                     Tokens.Add(token);
                 }
-                else if (isOperation(expr[i]))
+                else
+                if ((i+1 < expr.Length) && ((isDoubleOperation( expr[i].ToString() + expr[i + 1]))))
+                {
+                    tok = expr[i].ToString();
+                    tok = tok + expr[i + 1];
+                    i++;
+                    token.sType = RPNTokenType.OPERAND;
+                    token.sToken = tok;
+                    token.OperandType = RPNOperandType.Arifmetical;
+                    OperationConvertor.GetOperation.TryGetValue(tok, out token.Operation);
+                    Tokens.Add(token);
+                    i++;
+
+                    if (i > expr.Length - 1) { break; }
+
+                }
+                else
+                if (isOperation(expr[i]))
                 {
                     tok = expr[i].ToString();
                     token.sType = RPNTokenType.OPERAND;
                     token.sToken = tok;
+
                     token.OperandType = RPNOperandType.Arifmetical;
+                    OperationConvertor.GetOperation.TryGetValue(tok, out token.Operation);
+                    
+                    if (token.Operation == RPNOperandType.Minus)
+                    {
+                        if (Tokens.Count == 0)
+                        {
+                            token.Operation = RPNOperandType.JustMinus;
+                        } else
+                        {
+                           if ( (Tokens[Tokens.Count-1].sType == RPNTokenType.OPERAND) && (Tokens[Tokens.Count - 1].Operation != RPNOperandType.EndParentheses))
+                            {
+                                token.Operation = RPNOperandType.JustMinus;
+                            }
+                        }
+                    }
+                    if (token.Operation == RPNOperandType.Plus)
+                    {
+                        if (Tokens.Count == 0)
+                        {
+                            token.Operation = RPNOperandType.JustPlus;
+                        }
+                        else
+                        {
+                            if ((Tokens[Tokens.Count - 1].sType == RPNTokenType.OPERAND) && (Tokens[Tokens.Count - 1].Operation != RPNOperandType.EndParentheses))
+                            {
+                                token.Operation = RPNOperandType.JustPlus;
+                            }
+                        }
+                    }
                     Tokens.Add(token);
                     i++;
                     if (i > expr.Length - 1) { break; }
@@ -187,6 +245,7 @@ namespace com.sgcombo.RpnLib
             }
             return IsGood;
         }
+
 
     }
 }

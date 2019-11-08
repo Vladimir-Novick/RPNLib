@@ -11,5 +11,6 @@ namespace com.sgcombo.RpnLib
         public RPNTokenType sType;
         public string sToken;
         public RPNOperandType OperandType;
+        internal RPNOperandType Operation;
     }
 }
