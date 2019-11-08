@@ -47,7 +47,7 @@ namespace com.sgcombo.RpnLib
 { "/",RPNOperandType.Divide},
 { "/=",RPNOperandType.Div},
 { "^",RPNOperandType.Exponentiation },
- { "%=",RPNOperandType.Mod },
+{ "%=",RPNOperandType.Mod },
 { "+",RPNOperandType.Plus},
 { "-",RPNOperandType.Minus},
 { "<",RPNOperandType.Less},

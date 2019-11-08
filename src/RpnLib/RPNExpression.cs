@@ -8,8 +8,8 @@ namespace com.sgcombo.RpnLib
     {
 
 
-        private   List<RPNToken> Tokens = new List<RPNToken>();
-        private   string m_expr = string.Empty;
+        private List<RPNToken> Tokens = new List<RPNToken>();
+        private string m_expr = string.Empty;
 
         public RPNExpression(string expr)
         {
@@ -21,25 +21,41 @@ namespace com.sgcombo.RpnLib
             return m_expr;
         }
 
-        int precedence(char c)
+
+
+        int precedence(RPNOperandType c)
         {
             int order = 0;
             //Order of operators
             switch (c)
             {
-                case '(':
-                case ')':
+                case RPNOperandType.EndParentheses:
+                case RPNOperandType.StartParentheses:
                     order = 1;
                     break;
-                case '+':
-                case '-':
+                case RPNOperandType.Plus:
+                case RPNOperandType.Minus:
+                case RPNOperandType.JustMinus:
+                case RPNOperandType.JustPlus:
+                case RPNOperandType.Less:
+                case RPNOperandType.Greater:
+                case RPNOperandType.LessOrEqual:
+                case RPNOperandType.GreateOrEqual:
+                case RPNOperandType.NotEqual:
+                case RPNOperandType.Equal:
+                case RPNOperandType.Or:
+                case RPNOperandType.And:
+                case RPNOperandType.Not:
                     order = 2;
                     break;
-                case '*':
-                case '/':
+                case RPNOperandType.Mulitiply:
+                case RPNOperandType.Divide:
+                case RPNOperandType.Div:
+                case RPNOperandType.Mod:
+
                     order = 3;
                     break;
-                case '^':
+                case RPNOperandType.Exponentiation:
                     order = 4;
                     break;
                 default:
@@ -61,13 +77,13 @@ namespace com.sgcombo.RpnLib
 
         private List<RPNToken> execTokens = new List<RPNToken>();
 
-        public   string Prepare()
+        public string Prepare()
         {
             int x = 0;
             Stack<RPNToken> stack = new Stack<RPNToken>();
             Stack<RPNToken> postfix = new Stack<RPNToken>();
             string RetVal = string.Empty;
-           
+
             RPNToken sItem;
             RPNToken tok;
             RPNTokenType types;
@@ -112,7 +128,7 @@ namespace com.sgcombo.RpnLib
                             //Get top item
                             sItem = stack.Pop();
                             //Check order of operators.
-                            if (precedence(sItem.sToken[0]) >= precedence(tok.sToken[0]))
+                            if (precedence(sItem.Operation) >= precedence(tok.Operation))
                             {
                                 //Push operator on stack
                                 postfix.Push(sItem);
