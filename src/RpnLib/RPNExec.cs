@@ -106,9 +106,13 @@ namespace com.sgcombo.RpnLib
                         else
                         {
                          
-                            switch (tok[0])
+                            switch (Tokens[i].Operation)
                             {
-                                case '+':
+                                case RPNOperandType.JustPlus:
+                                    a = Convert.ToDouble(al.Pop());
+                                    r = +a;
+                                    break;
+                                case RPNOperandType.Plus:
                                     a = Convert.ToDouble(al.Pop());
                                     b = Convert.ToDouble(al.Pop());
                                     r = a + b;
@@ -116,7 +120,11 @@ namespace com.sgcombo.RpnLib
                                     Console.WriteLine($"{b} + {a} = {r}");
 #endif
                                     break;
-                                case '-':
+                                case RPNOperandType.JustMinus:
+                                    a = Convert.ToDouble(al.Pop());
+                                    r = -a;
+                                    break;
+                                case RPNOperandType.Minus:
                                     a = Convert.ToDouble(al.Pop());
                                     if (al.Count > 0)
                                     {
@@ -130,7 +138,7 @@ namespace com.sgcombo.RpnLib
                                         r = -a;
                                     }
                                     break;
-                                case '*':
+                                case RPNOperandType.Mulitiply:
                                     a = Convert.ToDouble(al.Pop());
                                     b = Convert.ToDouble(al.Pop());
                                     r = a * b;
@@ -139,7 +147,7 @@ namespace com.sgcombo.RpnLib
 #endif
 
                                     break;
-                                case '/':
+                                case RPNOperandType.Divide:
                                     a = Convert.ToDouble(al.Pop());
                                     b = Convert.ToDouble(al.Pop());
                                     r = (b / a);
@@ -148,7 +156,7 @@ namespace com.sgcombo.RpnLib
                                     Console.WriteLine($"{b} / {a} = {r}");
 #endif
                                     break;
-                                case '^':
+                                case RPNOperandType.Exponentiation:
                                     a = Convert.ToDouble(al.Pop());
                                     b = Convert.ToDouble(al.Pop());
                                     r = Math.Pow(b, a);
