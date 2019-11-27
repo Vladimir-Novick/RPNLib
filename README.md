@@ -28,18 +28,18 @@ With functions:
 
 Functions:
                            
-				ASin(argument)		Cosh(argument)
-				Cos(argument)       ACos(argument)          
-				Log10(argument)     Log(argument)
-				Tan(argument)		ATan(argument)
-				Sin(argument)       Sinh(argument)
-				Tanh(argument)      Sqrt(argument)
-				PI()      			Random()   
-				Abs(argument)
-			
-				Date()				 Now()              
-				Time()       		 Year()          
-				Day()       		 Month()  	
+			|	ASin(argument)	|	Cosh(argument)
+			|	Cos(argument)   |   ACos(argument)          
+			|	Log10(argument) |   Log(argument)
+			|	Tan(argument)	|	ATan(argument)
+			|	Sin(argument)   |   Sinh(argument)
+			|	Tanh(argument)  |   Sqrt(argument)
+			|	PI()      		|	Random()   
+			|	Abs(argument)	|
+			|					|
+			|	Date()			|	 Now()              
+			|	Time()       	|	 Year()          
+			|	Day()       	|	 Month()  	
 
 where 	"argument" - constant or mathematical expression		
                                 
