@@ -1,5 +1,8 @@
 # RPNLib
-Reverse Polish Notation (RPN) Library
+Reverse Polish Notation (RPN) Calculator Library
+
+Reverse Polish notation (RPN) is a method for representing arifmetical expressions in which the operator symbol is placed after the arguments being operated on.
+Polish notation, in which the operator comes before the operands, was invented in the 1920s by the Polish mathematician Jan Lucasiewicz. 
 
 Using:
 
@@ -16,3 +19,42 @@ With arguments:
 				arguments.Add(new RPNArguments("A", 2));
 				arguments.Add(new RPNArguments("B", 7));
 				var rezult = compiler.Calculate(arguments).ToString();
+
+With functions:
+
+				 String sourceString = "ACOS(-(0.5+0.5)) -20 +5";
+				 var compiler = new RPNExpression(sourceString);
+				 var rezult = compiler.Calculate().ToString();
+
+Functions:
+                           
+				ASin(argument)		Cosh(argument)
+				Cos(argument)       ACos(argument)          
+				Log10(argument)     Log(argument)
+				Tan(argument)		ATan(argument)
+				Sin(argument)       Sinh(argument)
+				Tanh(argument)      Sqrt(argument)
+				PI()      			Random()   
+				Abs(argument)
+			
+				Date()				 Now()              
+				Time()       		 Year()          
+				Day()       		 Month()  	
+
+where 	"argument" - constant or mathematical expression		
+                                
+                                
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            

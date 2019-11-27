@@ -29,7 +29,6 @@ namespace com.sgcombo.RpnLib
             pEnvironment.RegisterFunction(typeof(TimeToStrFunction));
             pEnvironment.RegisterFunction(typeof(UpperFunction));
             pEnvironment.RegisterFunction(typeof(LowerFunction));
-            pEnvironment.RegisterFunction(typeof(CopyFunction));
             pEnvironment.RegisterFunction(typeof(TrimFunction));
             pEnvironment.RegisterFunction(typeof(LenFunction));
             pEnvironment.RegisterFunction(typeof(ReplaceFunction));
@@ -182,14 +181,7 @@ namespace com.sgcombo.RpnLib
         }
     }
 
-    [Function("COPY", ParamTypes = "SNN", Group = RPNFunctions.cFuncGroupString)]
-    public class CopyFunction : RPNFunction
-    {
-        public override object Calc()
-        {
-            return Convert.ToString(Params[0]).Substring(Convert.ToInt32(Params[1]), Convert.ToInt32(Params[2]));
-        }
-    }
+
 
     [Function("TRIM", ParamTypes = "S", Group = RPNFunctions.cFuncGroupString)]
     public class TrimFunction : RPNFunction

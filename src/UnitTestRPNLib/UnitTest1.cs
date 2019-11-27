@@ -24,14 +24,14 @@ namespace com.sgcombo.RpnLib
         [TestMethod]
         public void TestMethodFunctions()
         {
-            String sourceString = "ACOS(-1) -20 +5";
+            String sourceString = "ACOS(-(0.5+0.5)) -20 +5";
             TestExpression(sourceString);
         }
 
         [TestMethod]
         public void TestMethodDATE()
         {
-            String sourceString = "DATE()";
+            String sourceString = "DATE()+24";
             TestExpression(sourceString);
         }
 
