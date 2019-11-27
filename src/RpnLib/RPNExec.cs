@@ -53,14 +53,11 @@ namespace com.sgcombo.RpnLib
                     case RPNTokenType.STRING:
                         al.Push(tok.Substring(1,tok.Length-2));
                         break;
-                    case RPNTokenType.OPERAND:
-                        object r = 0;
-                        if (Tokens[i].OperandType == RPNOperandType.Function)
-                        {
-
-                            if (this.Environment != null)
+                    case RPNTokenType.FUNCTION:
+                       
+                        if (this.Environment != null)
                             {
-                                double r1 = 0;
+
 #if DEBUG
                                 String argumentList = "";
 #endif
@@ -93,19 +90,22 @@ namespace com.sgcombo.RpnLib
                                     }
 
                                     object retObject = func.Calc();
-                                 
-                                    al.Push(retObject);
 
-                                    //   al.Push(r);
-                                }
+                                    al.Push(retObject);
 #if DEBUG
-                                Console.WriteLine($"Function , {funcName}  = {r.ToString()}");
+                                Console.WriteLine($"Function , {funcName}({argumentList})  = {retObject.ToString()}");
+
+
 #endif
+
+                                //   al.Push(r);
                             }
+
                         }
-                        else
-                        {
-                         
+                        break;
+                    case RPNTokenType.OPERAND:
+                        object r = 0;
+
                             switch (Tokens[i].Operation)
                             {
                                 case RPNOperandType.JustPlus:
@@ -126,17 +126,12 @@ namespace com.sgcombo.RpnLib
                                     break;
                                 case RPNOperandType.Minus:
                                     a = Convert.ToDouble(al.Pop());
-                                    if (al.Count > 0)
-                                    {
-                                        b = Convert.ToDouble(al.Pop());
-                                        r = b - a;
+                                    b = Convert.ToDouble(al.Pop());
+                                    r = b - a;
 #if DEBUG
-                                        Console.WriteLine($"{b} - {a} = {r}");
+                                Console.WriteLine($"{b} - {a} = {r}");
 #endif
-                                    } else
-                                    {
-                                        r = -a;
-                                    }
+
                                     break;
                                 case RPNOperandType.Mulitiply:
                                     a = Convert.ToDouble(al.Pop());
@@ -166,7 +161,6 @@ namespace com.sgcombo.RpnLib
 
                                     break;
                             }
-                        }
                         al.Push(r);
                         break;
                 }

@@ -6,7 +6,8 @@
         ALPHA,
         NUMBER,
         OPERAND,
-        STRING
+        STRING,
+        FUNCTION
     };
 
 }

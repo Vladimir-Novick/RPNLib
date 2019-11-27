@@ -23,44 +23,56 @@ namespace com.sgcombo.RpnLib
 
 
 
-        int precedence(RPNOperandType c)
+        int precedence(RPNToken token)
         {
             int order = 0;
             //Order of operators
-            switch (c)
+            if (token.sType == RPNTokenType.FUNCTION)
             {
-                case RPNOperandType.EndParentheses:
-                case RPNOperandType.StartParentheses:
-                    order = 1;
-                    break;
-                case RPNOperandType.Plus:
-                case RPNOperandType.Minus:
-                case RPNOperandType.JustMinus:
-                case RPNOperandType.JustPlus:
-                case RPNOperandType.Less:
-                case RPNOperandType.Greater:
-                case RPNOperandType.LessOrEqual:
-                case RPNOperandType.GreateOrEqual:
-                case RPNOperandType.NotEqual:
-                case RPNOperandType.Equal:
-                case RPNOperandType.Or:
-                case RPNOperandType.And:
-                case RPNOperandType.Not:
-                    order = 2;
-                    break;
-                case RPNOperandType.Mulitiply:
-                case RPNOperandType.Divide:
-                case RPNOperandType.Div:
-                case RPNOperandType.Mod:
+                order = 7;
+            }
+            else
+            {
 
-                    order = 3;
-                    break;
-                case RPNOperandType.Exponentiation:
-                    order = 4;
-                    break;
-                default:
-                    order = 0;
-                    break;
+                switch (token.Operation)
+                {
+
+                    case RPNOperandType.EndParentheses:
+                    case RPNOperandType.StartParentheses:
+                        order = 1;
+                        break;
+                    case RPNOperandType.Plus:
+                    case RPNOperandType.Minus:
+
+                    case RPNOperandType.Less:
+                    case RPNOperandType.Greater:
+                    case RPNOperandType.LessOrEqual:
+                    case RPNOperandType.GreateOrEqual:
+                    case RPNOperandType.NotEqual:
+                    case RPNOperandType.Equal:
+                    case RPNOperandType.Or:
+                    case RPNOperandType.And:
+                    case RPNOperandType.Not:
+                        order = 3;
+                        break;
+                    case RPNOperandType.Mulitiply:
+                    case RPNOperandType.Divide:
+                    case RPNOperandType.Div:
+                    case RPNOperandType.Mod:
+
+                        order = 4;
+                        break;
+                    case RPNOperandType.Exponentiation:
+                        order = 5;
+                        break;
+                    case RPNOperandType.JustMinus:
+                    case RPNOperandType.JustPlus:
+                        order = 6;
+                        break;
+                    default:
+                        order = 0;
+                        break;
+                }
             }
             return order;
         }
@@ -128,7 +140,7 @@ namespace com.sgcombo.RpnLib
                             //Get top item
                             sItem = stack.Pop();
                             //Check order of operators.
-                            if (precedence(sItem.Operation) >= precedence(tok.Operation))
+                            if (precedence(sItem) >= precedence(tok))
                             {
                                 //Push operator on stack
                                 postfix.Push(sItem);

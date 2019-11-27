@@ -24,7 +24,7 @@ namespace com.sgcombo.RpnLib
         [TestMethod]
         public void TestMethodFunctions()
         {
-            String sourceString = "ACOS(-1)";
+            String sourceString = "ACOS(-1) -20 +5";
             TestExpression(sourceString);
         }
 
@@ -63,6 +63,18 @@ namespace com.sgcombo.RpnLib
             arguments.Add(new RPNArguments("A", 2));
             arguments.Add(new RPNArguments("B", 7));
             var rezult = compiler.Calculate(arguments).ToString();
+            Console.WriteLine("Rezult  " + rezult);
+        }
+
+        [TestMethod]
+        public void JustMinus()
+        {
+            var compiler = new RPNExpression("12+-12");
+            Console.WriteLine("Source string: " + compiler.GetSourceString());
+            var RPNString = compiler.Prepare();
+            Console.WriteLine($"RPNString : {RPNString}");
+
+            var rezult = compiler.Calculate().ToString();
             Console.WriteLine("Rezult  " + rezult);
         }
     }

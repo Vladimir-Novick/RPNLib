@@ -1,8 +1,6 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace com.sgcombo.RpnLib
 {
@@ -11,7 +9,7 @@ namespace com.sgcombo.RpnLib
         Unknown,
         StartParentheses,
         EndParentheses,
-        Function,
+      
 
         //operators
         Mulitiply,
@@ -38,7 +36,7 @@ namespace com.sgcombo.RpnLib
     internal class OperationConvertor
     {
 
-        public static char[] operators = { '+', '-', '*', '/', '<', '>', '=', '%', '^', '(', ')' };
+        public static char[] operators = { '+', '-', '*', '/', '<', '>', '=', '%', '^', '(', ')', '~' };
         public static string[] doubleOperators = { "<>", ">=", "<=", "%=", "/=","==","||","&&" };
 
         public static Dictionary<string, RPNOperandType> GetOperation = new Dictionary<string, RPNOperandType>()
@@ -50,6 +48,7 @@ namespace com.sgcombo.RpnLib
 { "%=",RPNOperandType.Mod },
 { "+",RPNOperandType.Plus},
 { "-",RPNOperandType.Minus},
+{ "~",RPNOperandType.JustMinus},
 { "<",RPNOperandType.Less},
 { ">",RPNOperandType.Greater},
 { "<=",RPNOperandType.LessOrEqual},
