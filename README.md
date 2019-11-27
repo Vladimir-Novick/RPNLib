@@ -27,7 +27,9 @@ With functions:
 				 var rezult = compiler.Calculate().ToString();
 
 Functions:
-                           
+
+| Function  | Function |
+| ------------- | ------------- |
 |	ASin(argument)	|	Cosh(argument)
 |	Cos(argument)   |   ACos(argument)          
 |	Log10(argument) |   Log(argument)
