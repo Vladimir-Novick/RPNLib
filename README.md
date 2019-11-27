@@ -28,7 +28,8 @@ With functions:
 
 Functions:
 
-
+| Functions  | Functions |
+| ------------- | ------------- |
 |	ASin(argument)	|	Cosh(argument)
 |	Cos(argument)   |   ACos(argument)          
 |	Log10(argument) |   Log(argument)
