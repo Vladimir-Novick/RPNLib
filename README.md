@@ -37,7 +37,7 @@ Mathematical notation:
 |−	|minus sign	|subtraction|	2 − 1 = 1   |
 |*	|asterisk	|multiplication|	2 * 3 = 6|
 |/	|division slash|	division|	6 / 2 = 3|
-|^	|Exponentiation slash|	Exponentiation Operator |	3 ^ 2 = 9 |
+|^	|Exponentiation sign|	Exponentiation Operator |	3 ^ 2 = 9 |
 
 
 Functions:
