@@ -39,7 +39,7 @@ Mathematical notation:
 |x	|times sign	|multiplication|	2 x 3 = 6|
 |/	|division slash|	division|	6 / 2 = 3|
 |÷	|division sign / obelus|	division|	6 ÷ 2 = 3|
-|^	|Exponentiation sign|	Exponentiation Operator |	3 ^ 2 = 9 |
+|^	|Exponentiation sign|	exponent |	2 ^ 3 = 8 |
 
 
 Functions:
