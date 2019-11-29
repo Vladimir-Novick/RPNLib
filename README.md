@@ -1,4 +1,4 @@
-# RPNLib
+﻿# RPNLib
 Reverse Polish Notation (RPN) Calculator Library
 
 Reverse Polish notation (RPN) is a method for representing arifmetical expressions in which the operator symbol is placed after the arguments being operated on.
@@ -25,6 +25,20 @@ With functions:
 				 String sourceString = "ACOS(-(0.5+0.5)) -20 +5";
 				 var compiler = new RPNExpression(sourceString);
 				 var rezult = compiler.Calculate().ToString();
+
+
+Mathematical notation:
+
+| Symbol	|  Symbol Name	|        definition            |       Example    |
+| --------- | ------------- |----------------------------- |----------------- |
+|			|				|		   |
+|( )| parentheses |	calculate expression inside first |	2 × (3+5) = 16|
+|+	|plus sign	| addition	|   1 + 1 = 2   |
+|−	|minus sign	|subtraction|	2 − 1 = 1   |
+|*	|asterisk	|multiplication|	2 * 3 = 6|
+|/	|division slash|	division|	6 / 2 = 3|
+|^	|Exponentiation slash|	Exponentiation Operator |	3 ^ 2 = 9 |
+
 
 Functions:
 
