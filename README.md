@@ -29,13 +29,14 @@ With functions:
 
 Mathematical notation:
 
-| Symbol	|  Symbol Name	|        definition            |       Example    |
+| Symbol	|  Symbol Name	|        Definition            |       Example    |
 | --------- | ------------- |----------------------------- |----------------- |
 |			|				|		   |
 |( )| parentheses |	calculate expression inside first |	2 × (3+5) = 16|
 |+	|plus sign	| addition	|   1 + 1 = 2   |
 |−	|minus sign	|subtraction|	2 − 1 = 1   |
 |*	|asterisk	|multiplication|	2 * 3 = 6|
+|x	|times sign	|multiplication|	2 x 3 = 6|
 |/	|division slash|	division|	6 / 2 = 3|
 |^	|Exponentiation sign|	Exponentiation Operator |	3 ^ 2 = 9 |
 
