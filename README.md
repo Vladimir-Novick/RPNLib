@@ -36,30 +36,44 @@ Mathematical notation:
 |+	|plus sign	| addition	|   1 + 1 = 2   |
 |−	|minus sign	|subtraction|	2 − 1 = 1   |
 |*	|asterisk	|multiplication|	2 * 3 = 6|
-|x	|times sign	|multiplication|	2 x 3 = 6|
 |/	|division slash|	division|	6 / 2 = 3|
 |÷	|division sign / obelus|	division|	6 ÷ 2 = 3|
 |^	|Exponentiation sign|	exponent |	2 ^ 3 = 8 |
+|>	|strict inequality|	greater than|	5 > 4 5 is greater than 4|
+|<	|strict inequality|	less than	|4 < 5 4 is less than 5|
+|≥	|inequality	|greater than or equal to	|5 ≥ 4, x ≥ y means x is greater than or equal to y|
+|≤	|inequality	|less than or equal to	|4 ≤ 5, x ≤ y means x is less than or equal to y|
+|%	|percent	|1% = 1/100|	10% × 30 = 3|
 
 
 Functions:
 
-| Functions  | Functions |
-| ------------- | ------------- |
-|	ASin(argument)	|	Cosh(argument)
-|	Cos(argument)   |   ACos(argument)          
-|	Log10(argument) |   Log(argument)
-|	Tan(argument)	|	ATan(argument)
-|	Sin(argument)   |   Sinh(argument)
-|	Tanh(argument)  |   Sqrt(argument)
-|	PI()      		|	Random()   
-|	Abs(argument)	|
-|					|
-|	Date()			|	 Now()              
-|	Time()       	|	 Year()          
-|	Day()       	|	 Month()  	
+| Functions  |         Definition            |
+| -----------|------------------------------ |
+|Now()| Current Date and Time |
+|Date()|Currentn Date |
+|Time()|Current Time  |
+|Day()| Current Day   |
+|Month()| Current Month |
+|Year()| Current Year |
+|Abs(x)|            | 
+|Round(x)|            |
+|Random()|            | 
+|ACos(x)| Arccosine function.| 
+|ASin(x)| returns the Inverse Sin  |
+|ATan(x)|Arctan(x), tan-1(x), inverse tangent function. |
+|Cos(x)| Cosine function. |  
+|Cosh(x)|Inverse hyperbolic cosine |
+|Log(x)| Natural logarithm | 
+|Log10(x)| Logarithm 10 |
+|Sin(x)|  sin(x), sine function.  |
+|Sinh(x)|Inverse hyperbolic sine | 
+|Sqrt(x)|Square Root | 
+|Tan(x)|tangent function. | 
+|Tanh(x)|Hyperbolic tangent | 
+|PI()| Number Pi Mathematical Constant |
 
-where 	"argument" - constant or mathematical expression		
+where 	"x" - constant or mathematical expression		
                                 
                                 
             

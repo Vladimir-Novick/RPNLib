@@ -42,7 +42,6 @@ namespace com.sgcombo.RpnLib
         public static Dictionary<string, RPNOperandType> GetOperation = new Dictionary<string, RPNOperandType>()
         {
 { "*",RPNOperandType.Mulitiply},
-{ "x",RPNOperandType.Mulitiply},
 { "/",RPNOperandType.Divide},
 { "÷",RPNOperandType.Divide},
 { "/=",RPNOperandType.Div},
