@@ -36,7 +36,7 @@ namespace com.sgcombo.RpnLib
     internal class OperationConvertor
     {
 
-        public static char[] operators = { '+', '-', '*', '/', '<', '>', '=', '%', '^', '(', ')', '~', 'x', '÷' };
+        public static char[] operators = { '+', '-', '*', '/', '<', '>', '=', '%', '^', '(', ')', '~', 'x', '÷','≥','≤' };
         public static string[] doubleOperators = { "<>", ">=", "<=", "%=", "/=","==","||","&&" };
 
         public static Dictionary<string, RPNOperandType> GetOperation = new Dictionary<string, RPNOperandType>()
@@ -53,7 +53,9 @@ namespace com.sgcombo.RpnLib
 { "<",RPNOperandType.Less},
 { ">",RPNOperandType.Greater},
 { "<=",RPNOperandType.LessOrEqual},
+{ "≤",RPNOperandType.LessOrEqual},
 { ">=",RPNOperandType.GreateOrEqual},
+{ "≥",RPNOperandType.GreateOrEqual},
 { "!=",RPNOperandType.NotEqual},
 { "==",RPNOperandType.Equal},
 { "||",RPNOperandType.Or},

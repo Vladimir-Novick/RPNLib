@@ -26,6 +26,8 @@ namespace com.sgcombo.RpnLib
             int i = 0;
             double a = 0;
             double b = 0;
+            bool a1 = true;
+            bool b1 = true;
             string tok = string.Empty;
             //Go though the tokens
             al = new Stack<object>();
@@ -39,6 +41,15 @@ namespace com.sgcombo.RpnLib
                     case RPNTokenType.NONE:
                         break;
                     case RPNTokenType.ALPHA:
+                        if (tok.Equals("true")){
+                            al.Push(true);
+                            break;
+                        }
+                        if (tok.Equals("false"))
+                        {
+                            al.Push(false);
+                            break;
+                        }
                         if (vars.TryGetValue(tok, out RPNArguments arg)){
                             a = arg.value;
                             al.Push(a);
@@ -158,8 +169,102 @@ namespace com.sgcombo.RpnLib
 #if DEBUG
                                     Console.WriteLine($"{b} ^ {a} = {r}");
 #endif
+                                break;
 
-                                    break;
+                            case RPNOperandType.Div:  // "/="
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = (b / a);
+#if DEBUG
+                                Console.WriteLine($"{b} /= {a} = {r}");
+#endif
+                                break;
+                            case RPNOperandType.Mod:  //"%=",
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = (b %= a);
+#if DEBUG
+                                Console.WriteLine($"{b} %= {a} = {r}");
+#endif
+                                break;
+                            case RPNOperandType.Less:  //"<",
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = (b < a);
+#if DEBUG
+                                Console.WriteLine($"{b} < {a} = {r}");
+#endif
+                                break;
+                            case RPNOperandType.Greater:  //">",
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = (b > a);
+#if DEBUG
+                                Console.WriteLine($"{b} > {a} = {r}");
+#endif
+                                break;
+                            case RPNOperandType.LessOrEqual:  //"<=",
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = (b <= a);
+#if DEBUG
+                                Console.WriteLine($"{b} <= {a} = {r}");
+#endif
+                                break;
+                            case RPNOperandType.GreateOrEqual:  //">=",
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = (b >= a);
+#if DEBUG
+                                Console.WriteLine($"{b} >={a} = {r}");
+#endif
+                                break;
+
+                            case RPNOperandType.NotEqual:  //"!=",
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = (b != a);
+#if DEBUG
+                                Console.WriteLine($"{b} !={a} = {r}");
+#endif
+                                break;
+                            case RPNOperandType.Equal:  //"=="
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = (b == a);
+#if DEBUG
+                                Console.WriteLine($"{b} =={a} = {r}");
+#endif
+                                break;
+
+                            case RPNOperandType.Or:  //"||",
+                                a1 = Convert.ToBoolean(al.Pop());
+                                b1 = Convert.ToBoolean(al.Pop());
+                                r = (b1 || a1);
+#if DEBUG
+                                Console.WriteLine($"{b1} || {a1} = {r}");
+#endif
+                                break;
+
+
+                            case RPNOperandType.And:  //"&&",
+
+                                 a1 = Convert.ToBoolean(al.Pop());
+                                 b1 = Convert.ToBoolean(al.Pop());
+                                r = (b1 && a1);
+#if DEBUG
+                                Console.WriteLine($"{b1} && {a1} = {r}");
+#endif
+                                break;
+
+                            case RPNOperandType.Not:  //"!",
+                                a1 = Convert.ToBoolean(al.Pop());
+                                r = (! a1);
+#if DEBUG
+                                Console.WriteLine($" !{a1} = {r}");
+#endif
+                                break;
+
                             }
                         al.Push(r);
                         break;

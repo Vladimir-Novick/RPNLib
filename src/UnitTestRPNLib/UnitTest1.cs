@@ -35,6 +35,13 @@ namespace com.sgcombo.RpnLib
             TestExpression(sourceString);
         }
 
+        [TestMethod]
+        public void TestMethodAND()
+        {
+            String sourceString = "true && false";
+            TestExpression(sourceString);
+        }
+
 
         private static void TestExpression(string sourceString,string verify = null)
         {
