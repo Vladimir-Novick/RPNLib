@@ -54,9 +54,9 @@ Logical notations:
 |>=	|inequality	|greater than or equal to	|5 >= 4, x >= y means x is greater than or equal to y|
 |≤	|inequality	|less than or equal to	|4 ≤ 5, x ≤ y means x is less than or equal to y|
 |<=	|inequality	|less than or equal to	|4 <= 5, x <= y means x is less than or equal to y|
-| \|\| | Or|	5 = x\|\| 4 = y |
-| && |And |	5 = x && 4 = x|
-| ! |Not | !(5 = x) |
+| \|\| | Or| Logical OR	|5 = x\|\| 4 = y |
+| && |And | Logical AND |	5 = x && 4 = x|
+| ! |Not | Logical NOT| !(5 = x) |
 
 
 
