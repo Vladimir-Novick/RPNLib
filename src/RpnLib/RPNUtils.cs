@@ -212,7 +212,10 @@ namespace com.sgcombo.RpnLib
                     {
                         if (Tokens.Count > 0 && Tokens[Tokens.Count - 1].sType == RPNTokenType.OPERAND)
                         {
-                            token.Operation = RPNOperandType.JustPlus;
+                            if (Tokens[Tokens.Count - 1].Operation != RPNOperandType.EndParentheses)
+                            {
+                                token.Operation = RPNOperandType.JustPlus;
+                            }
                         }
                     }
                     Tokens.Add(token);

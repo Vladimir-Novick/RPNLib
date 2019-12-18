@@ -41,7 +41,8 @@ namespace com.sgcombo.RpnLib
                     case RPNTokenType.NONE:
                         break;
                     case RPNTokenType.ALPHA:
-                        if (tok.Equals("true")){
+                        if (tok.Equals("true"))
+                        {
                             al.Push(true);
                             break;
                         }
@@ -50,10 +51,12 @@ namespace com.sgcombo.RpnLib
                             al.Push(false);
                             break;
                         }
-                        if (vars.TryGetValue(tok, out RPNArguments arg)){
+                        if (vars.TryGetValue(tok, out RPNArguments arg))
+                        {
                             a = arg.value;
                             al.Push(a);
-                        } else
+                        }
+                        else
                         {
                             throw new Exception($"Value [{tok}] not exists");
                         }
@@ -62,47 +65,46 @@ namespace com.sgcombo.RpnLib
                         al.Push(double.Parse(tok));
                         break;
                     case RPNTokenType.STRING:
-                        al.Push(tok.Substring(1,tok.Length-2));
+                        al.Push(tok.Substring(1, tok.Length - 2));
                         break;
                     case RPNTokenType.FUNCTION:
-                       
+
                         if (this.Environment != null)
+                        {
+
+#if DEBUG
+                            String argumentList = "";
+#endif
+
+                            String funcName = Tokens[i].sToken;
+                            funcName = funcName.Substring(0, funcName.Length - 1);
+
+
+                            var func = this.Environment.FindFunction(funcName);
+                            if (func != null)
                             {
-
-#if DEBUG
-                                String argumentList = "";
-#endif
-
-                                String funcName = Tokens[i].sToken;
-                                funcName = funcName.Substring(0, funcName.Length - 1);
+                                FunctionAttribute funcAttrib = (FunctionAttribute)Attribute.GetCustomAttribute(func.GetType(), typeof(FunctionAttribute));
+                                List<object> arguments = new List<object>();
 
 
-                                var func = this.Environment.FindFunction(funcName);
-                                if (func != null)
+
+                                if (funcAttrib.ParamTypes != null && funcAttrib.ParamTypes.Length > 0)
                                 {
-                                    FunctionAttribute funcAttrib = (FunctionAttribute)Attribute.GetCustomAttribute(func.GetType(), typeof(FunctionAttribute));
-                                    List<object> arguments = new List<object>();
-
-
-
-                                    if (funcAttrib.ParamTypes != null && funcAttrib.ParamTypes.Length > 0)
+                                    foreach (var paramType in funcAttrib.ParamTypes)
                                     {
-                                        foreach (var paramType in funcAttrib.ParamTypes)
-                                        {
-                                            object obj = al.Pop();
-                                            a = Convert.ToDouble(obj);
-                                            func.Params.Add(a);
+                                        object obj = al.Pop();
+                                        func.Params.Add(obj);
 #if DEBUG
-                                            argumentList += " ";
-                                            argumentList += a.ToString();
+                                        argumentList += " ";
+                                        argumentList += obj.ToString();
 #endif
-                                        }
-
                                     }
 
-                                    object retObject = func.Calc();
+                                }
 
-                                    al.Push(retObject);
+                                object retObject = func.Calc();
+
+                                al.Push(retObject);
 #if DEBUG
                                 Console.WriteLine($"Function , {funcName}({argumentList})  = {retObject.ToString()}");
 
@@ -117,57 +119,82 @@ namespace com.sgcombo.RpnLib
                     case RPNTokenType.OPERAND:
                         object r = 0;
 
-                            switch (Tokens[i].Operation)
-                            {
-                                case RPNOperandType.JustPlus:
-                                    a = Convert.ToDouble(al.Pop());
-                                    r = +a;
-                                    break;
-                                case RPNOperandType.Plus:
-                                    a = Convert.ToDouble(al.Pop());
-                                    b = Convert.ToDouble(al.Pop());
-                                    r = a + b;
+                        switch (Tokens[i].Operation)
+                        {
+                            case RPNOperandType.JustPlus:
+                                a = Convert.ToDouble(al.Pop());
+                                r = +a;
 #if DEBUG
-                                    Console.WriteLine($"{b} + {a} = {r}");
+                                Console.WriteLine($"JustPlus , {r}  = {a.ToString()}");
+
+
 #endif
-                                    break;
-                                case RPNOperandType.JustMinus:
-                                    a = Convert.ToDouble(al.Pop());
-                                    r = -a;
-                                    break;
-                                case RPNOperandType.Minus:
-                                    a = Convert.ToDouble(al.Pop());
-                                    b = Convert.ToDouble(al.Pop());
-                                    r = b - a;
+
+                                break;
+                            case RPNOperandType.Plus:
+                                a = Convert.ToDouble(al.Pop());
+                                var b11 = al.Pop();
+                                if ("DateTime" == b11.GetType().Name)
+                                {
+                                    DateTime dDateTime = (DateTime)b11;
+                                    r = dDateTime.AddHours(a);
+                                }
+                                else
+                                {
+                                    b = Convert.ToDouble(b11);
+                                    r = a + b;
+                                }
+
+#if DEBUG
+                                Console.WriteLine($"{b.ToString()} + {a.ToString()} = {r.ToString()}");
+#endif
+                                break;
+                            case RPNOperandType.JustMinus:
+                                a = Convert.ToDouble(al.Pop());
+                                r = -a;
+                                break;
+                            case RPNOperandType.Minus:
+                                a = Convert.ToDouble(al.Pop());
+                                var b12 = al.Pop();
+                                if ("DateTime" == b12.GetType().Name)
+                                {
+                                    DateTime dDateTime = (DateTime)b12;
+                                    r = dDateTime.AddHours(-a);
+                                }
+                                else
+                                {
+                                    b = Convert.ToDouble(b12);
+                                    r =  b - a;
+                                }
 #if DEBUG
                                 Console.WriteLine($"{b} - {a} = {r}");
 #endif
 
-                                    break;
-                                case RPNOperandType.Mulitiply:
-                                    a = Convert.ToDouble(al.Pop());
-                                    b = Convert.ToDouble(al.Pop());
-                                    r = a * b;
+                                break;
+                            case RPNOperandType.Mulitiply:
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = a * b;
 #if DEBUG
-                                    Console.WriteLine($"{b} * {a} = {r}");
+                                Console.WriteLine($"{b} * {a} = {r}");
 #endif
 
-                                    break;
-                                case RPNOperandType.Divide:
-                                    a = Convert.ToDouble(al.Pop());
-                                    b = Convert.ToDouble(al.Pop());
-                                    r = (b / a);
+                                break;
+                            case RPNOperandType.Divide:
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = (b / a);
 
 #if DEBUG
-                                    Console.WriteLine($"{b} / {a} = {r}");
+                                Console.WriteLine($"{b} / {a} = {r}");
 #endif
-                                    break;
-                                case RPNOperandType.Exponentiation:
-                                    a = Convert.ToDouble(al.Pop());
-                                    b = Convert.ToDouble(al.Pop());
-                                    r = Math.Pow(b, a);
+                                break;
+                            case RPNOperandType.Exponentiation:
+                                a = Convert.ToDouble(al.Pop());
+                                b = Convert.ToDouble(al.Pop());
+                                r = Math.Pow(b, a);
 #if DEBUG
-                                    Console.WriteLine($"{b} ^ {a} = {r}");
+                                Console.WriteLine($"{b} ^ {a} = {r}");
 #endif
                                 break;
 
@@ -249,8 +276,8 @@ namespace com.sgcombo.RpnLib
 
                             case RPNOperandType.And:  //"&&",
 
-                                 a1 = Convert.ToBoolean(al.Pop());
-                                 b1 = Convert.ToBoolean(al.Pop());
+                                a1 = Convert.ToBoolean(al.Pop());
+                                b1 = Convert.ToBoolean(al.Pop());
                                 r = (b1 && a1);
 #if DEBUG
                                 Console.WriteLine($"{b1} && {a1} = {r}");
@@ -259,13 +286,13 @@ namespace com.sgcombo.RpnLib
 
                             case RPNOperandType.Not:  //"!",
                                 a1 = Convert.ToBoolean(al.Pop());
-                                r = (! a1);
+                                r = (!a1);
 #if DEBUG
                                 Console.WriteLine($" !{a1} = {r}");
 #endif
                                 break;
 
-                            }
+                        }
                         al.Push(r);
                         break;
                 }

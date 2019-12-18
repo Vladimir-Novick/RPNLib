@@ -5,45 +5,156 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.sgcombo.RpnLib
 {
     [TestClass]
-    public class UnitTest1
+    public class UnitTestLogical
     {
         [TestMethod]
-        public void TestMethod1()
-        {
-            String sourceString = "4/12*100+(2*7)";
-            TestExpression(sourceString, "47.3333333333333");
-        }
-
-        [TestMethod]
-        public void TestMethod2()
-        {
-            String sourceString = "((15 / (7 - (1 + 1))) * 3) - (2 + (1 + 1)) ";
-            TestExpression(sourceString, "5");
-        }
-
-        [TestMethod]
-        public void TestMethodFunctions()
-        {
-            String sourceString = "ACOS(-(0.5+0.5)) -20 +5";
-            TestExpression(sourceString);
-        }
-
-        [TestMethod]
-        public void TestMethodDATE()
-        {
-            String sourceString = "DATE()+24";
-            TestExpression(sourceString);
-        }
-
-        [TestMethod]
-        public void TestMethodAND()
+        public void AND_False()
         {
             String sourceString = "true && false";
-            TestExpression(sourceString);
+            UnitTestUtils.TestExpression(sourceString, "False");
+        }
+
+        [TestMethod]
+        public void AND_True()
+        {
+            String sourceString = "true && true";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+
+        [TestMethod]
+        public void OR_True()
+        {
+            String sourceString = "true || false";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+
+        [TestMethod]
+        public void OR_False()
+        {
+            String sourceString = "false || false";
+            UnitTestUtils.TestExpression(sourceString, "False");
         }
 
 
-        private static void TestExpression(string sourceString,string verify = null)
+        [TestMethod]
+        public void Equalent()
+        {
+            String sourceString = "5 = 5";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+
+        [TestMethod]
+        public void Equalent2()
+        {
+            String sourceString = "5 == 5";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+
+        [TestMethod]
+        public void Greater_TRUE()
+        {
+            String sourceString = "5 > 4";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+        [TestMethod]
+        public void Greater_FALSE()
+        {
+            String sourceString = "4 > 5";
+            UnitTestUtils.TestExpression(sourceString, "False");
+        }
+
+        [TestMethod]
+        public void GreaterOrEqual_TRUE()
+        {
+            String sourceString = "5 >= 4";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+        [TestMethod]
+        public void GreaterOrEqual_FALSE()
+        {
+            String sourceString = "4 >= 5";
+            UnitTestUtils.TestExpression(sourceString, "False");
+        }
+
+        [TestMethod]
+        public void GreaterOrEqual3_TRUE()
+        {
+            String sourceString = "5 >= 5";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+
+
+        [TestMethod]
+        public void GreaterOrEqual4_TRUE()
+        {
+            String sourceString = "5 ≥ 5";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+
+        [TestMethod]
+        public void GreaterOrEqual2_TRUE()
+        {
+            String sourceString = "5 ≥ 4";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+        [TestMethod]
+        public void GreaterOrEqual2_FALSE()
+        {
+            String sourceString = "4 ≥ 5";
+            UnitTestUtils.TestExpression(sourceString, "False");
+        }
+
+        [TestMethod]
+        public void Less_TRUE()
+        {
+            String sourceString = "4 < 5";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+        [TestMethod]
+        public void Less_FALSE()
+        {
+            String sourceString = "5 < 4";
+            UnitTestUtils.TestExpression(sourceString, "False");
+        }
+
+        [TestMethod]
+        public void LessOrEqual_TRUE()
+        {
+            String sourceString = "4 <= 5";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+        [TestMethod]
+        public void LessOrEqual_FALSE()
+        {
+            String sourceString = "5 <= 4";
+            UnitTestUtils.TestExpression(sourceString, "False");
+        }
+
+        [TestMethod]
+        public void LessOrEqual2_TRUE()
+        {
+            String sourceString = "4 ≤ 5";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+
+        [TestMethod]
+        public void LessOrEqual3_TRUE()
+        {
+            String sourceString = "5 ≤ 5";
+            UnitTestUtils.TestExpression(sourceString, "True");
+        }
+
+        [TestMethod]
+        public void LessOrEqual2_FALSE()
+        {
+            String sourceString = "5 ≤ 4";
+            UnitTestUtils.TestExpression(sourceString, "False");
+        }
+
+    }
+    public class UnitTestUtils
+    {
+        public static void TestExpression(string sourceString, string verify = null)
         {
             var compiler = new RPNExpression(sourceString);
             Console.WriteLine("Source string: " + compiler.GetSourceString());
@@ -57,6 +168,57 @@ namespace com.sgcombo.RpnLib
                 Assert.IsTrue(rezult.ToString().Equals(verify.ToString()));
             }
         }
+
+    }
+    [TestClass]
+    public class UnitTestMathematical
+    {
+        [TestMethod]
+        public void TestMethod1()
+        {
+            String sourceString = "4/12*100+(2*7)";
+            UnitTestUtils.TestExpression(sourceString, "47.3333333333333");
+        }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            String sourceString = "((15 / (7 - (1 + 1))) * 3) - (2 + (1 + 1)) ";
+            UnitTestUtils.TestExpression(sourceString, "5");
+        }
+
+
+        [TestMethod]
+        public void ACOS()
+        {
+            String sourceString = "ACOS(-1)";
+            UnitTestUtils.TestExpression(sourceString, "3.14159265358979");
+        }
+
+
+        [TestMethod]
+        public void ACOS_Mathematical()
+        {
+            String sourceString = "ACOS(-(0.5+0.5)) -20 +5";
+            UnitTestUtils.TestExpression(sourceString, "-11.8584073464102");
+        }
+
+        [TestMethod]
+        public void DATE_Plus()
+        {
+            String verifyDate = (DateTime.Today.AddHours(24)).ToString();
+            String sourceString = "DATE()+24";
+            UnitTestUtils.TestExpression(sourceString,verifyDate);
+        }
+
+        [TestMethod]
+        public void DATE_Minus()
+        {
+            String verifyDate = (DateTime.Today.AddHours(-24)).ToString();
+            String sourceString = "DATE()-24";
+            UnitTestUtils.TestExpression(sourceString, verifyDate);
+        }
+
 
         [TestMethod]
         public void TestMethodVar()

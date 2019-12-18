@@ -58,6 +58,7 @@ namespace com.sgcombo.RpnLib
 { "≥",RPNOperandType.GreateOrEqual},
 { "!=",RPNOperandType.NotEqual},
 { "==",RPNOperandType.Equal},
+{ "=",RPNOperandType.Equal},
 { "||",RPNOperandType.Or},
 { "&&",RPNOperandType.And},
 { "!",RPNOperandType.Not},
