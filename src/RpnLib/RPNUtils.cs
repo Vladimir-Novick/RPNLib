@@ -179,7 +179,7 @@ namespace com.sgcombo.RpnLib
                     i++;
                     token.sType = RPNTokenType.OPERAND;
                     token.sToken = tok;
-                    token.OperandType = RPNOperandType.Arifmetical;
+                    token.OperandType = RPNOperandType.ARIFMETICAL;
                     OperationConvertor.GetOperation.TryGetValue(tok, out token.Operation);
                     Tokens.Add(token);
                     i++;
@@ -194,27 +194,27 @@ namespace com.sgcombo.RpnLib
                     token.sType = RPNTokenType.OPERAND;
                     token.sToken = tok;
 
-                    token.OperandType = RPNOperandType.Arifmetical;
+                    token.OperandType = RPNOperandType.ARIFMETICAL;
                     OperationConvertor.GetOperation.TryGetValue(tok, out token.Operation);
                     
-                    if (token.Operation == RPNOperandType.Minus)
+                    if (token.Operation == RPNOperandType.MINUS)
                     {
                         if (Tokens.Count > 0 && ((Tokens[Tokens.Count-1].sType == RPNTokenType.OPERAND)))
                         {
-                            if (Tokens[Tokens.Count - 1].Operation != RPNOperandType.EndParentheses)
+                            if (Tokens[Tokens.Count - 1].Operation != RPNOperandType.END_PARENTHESES)
                             {
-                                token.Operation = RPNOperandType.JustMinus;
+                                token.Operation = RPNOperandType.JUSTMINUS;
                                 token.sToken = tok = "~";
                             }
                         }
                     }
-                    if (token.Operation == RPNOperandType.Plus)
+                    if (token.Operation == RPNOperandType.PLUS)
                     {
                         if (Tokens.Count > 0 && Tokens[Tokens.Count - 1].sType == RPNTokenType.OPERAND)
                         {
-                            if (Tokens[Tokens.Count - 1].Operation != RPNOperandType.EndParentheses)
+                            if (Tokens[Tokens.Count - 1].Operation != RPNOperandType.END_PARENTHESES)
                             {
-                                token.Operation = RPNOperandType.JustPlus;
+                                token.Operation = RPNOperandType.JUSTPLUS;
                             }
                         }
                     }

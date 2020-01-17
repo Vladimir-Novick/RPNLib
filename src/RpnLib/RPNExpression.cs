@@ -37,36 +37,36 @@ namespace com.sgcombo.RpnLib
                 switch (token.Operation)
                 {
 
-                    case RPNOperandType.EndParentheses:
-                    case RPNOperandType.StartParentheses:
+                    case RPNOperandType.END_PARENTHESES:
+                    case RPNOperandType.STAR_TPARENTHESES:
                         order = 1;
                         break;
-                    case RPNOperandType.Plus:
-                    case RPNOperandType.Minus:
+                    case RPNOperandType.PLUS:
+                    case RPNOperandType.MINUS:
 
-                    case RPNOperandType.Less:
-                    case RPNOperandType.Greater:
-                    case RPNOperandType.LessOrEqual:
-                    case RPNOperandType.GreateOrEqual:
-                    case RPNOperandType.NotEqual:
-                    case RPNOperandType.Equal:
-                    case RPNOperandType.Or:
-                    case RPNOperandType.And:
-                    case RPNOperandType.Not:
+                    case RPNOperandType.LESS:
+                    case RPNOperandType.GREATER:
+                    case RPNOperandType.LESSOREQUAL:
+                    case RPNOperandType.GREATEOREQUAL:
+                    case RPNOperandType.NOTEQUAL:
+                    case RPNOperandType.EQUAL:
+                    case RPNOperandType.OR_OPERATOR:
+                    case RPNOperandType.AND_OPERATOR:
+                    case RPNOperandType.NOT_OPERATOR:
                         order = 3;
                         break;
-                    case RPNOperandType.Mulitiply:
-                    case RPNOperandType.Divide:
-                    case RPNOperandType.Div:
-                    case RPNOperandType.Mod:
+                    case RPNOperandType.MULITIPLY:
+                    case RPNOperandType.DIVIDE:
+                    case RPNOperandType.DIV_OPERATOR:
+                    case RPNOperandType.MOD_OPERATOR:
 
                         order = 4;
                         break;
-                    case RPNOperandType.Exponentiation:
+                    case RPNOperandType.EXPONENTIATION:
                         order = 5;
                         break;
-                    case RPNOperandType.JustMinus:
-                    case RPNOperandType.JustPlus:
+                    case RPNOperandType.JUSTMINUS:
+                    case RPNOperandType.JUSTPLUS:
                         order = 6;
                         break;
                     default:

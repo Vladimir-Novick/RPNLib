@@ -121,7 +121,7 @@ namespace com.sgcombo.RpnLib
 
                         switch (Tokens[i].Operation)
                         {
-                            case RPNOperandType.JustPlus:
+                            case RPNOperandType.JUSTPLUS:
                                 a = Convert.ToDouble(al.Pop());
                                 r = +a;
 #if DEBUG
@@ -131,7 +131,7 @@ namespace com.sgcombo.RpnLib
 #endif
 
                                 break;
-                            case RPNOperandType.Plus:
+                            case RPNOperandType.PLUS:
                                 a = Convert.ToDouble(al.Pop());
                                 var b11 = al.Pop();
                                 if ("DateTime" == b11.GetType().Name)
@@ -149,11 +149,11 @@ namespace com.sgcombo.RpnLib
                                 Console.WriteLine($"{b.ToString()} + {a.ToString()} = {r.ToString()}");
 #endif
                                 break;
-                            case RPNOperandType.JustMinus:
+                            case RPNOperandType.JUSTMINUS:
                                 a = Convert.ToDouble(al.Pop());
                                 r = -a;
                                 break;
-                            case RPNOperandType.Minus:
+                            case RPNOperandType.MINUS:
                                 a = Convert.ToDouble(al.Pop());
                                 var b12 = al.Pop();
                                 if ("DateTime" == b12.GetType().Name)
@@ -171,7 +171,7 @@ namespace com.sgcombo.RpnLib
 #endif
 
                                 break;
-                            case RPNOperandType.Mulitiply:
+                            case RPNOperandType.MULITIPLY:
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = a * b;
@@ -180,7 +180,7 @@ namespace com.sgcombo.RpnLib
 #endif
 
                                 break;
-                            case RPNOperandType.Divide:
+                            case RPNOperandType.DIVIDE:
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b / a);
@@ -189,7 +189,7 @@ namespace com.sgcombo.RpnLib
                                 Console.WriteLine($"{b} / {a} = {r}");
 #endif
                                 break;
-                            case RPNOperandType.Exponentiation:
+                            case RPNOperandType.EXPONENTIATION:
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = Math.Pow(b, a);
@@ -198,7 +198,7 @@ namespace com.sgcombo.RpnLib
 #endif
                                 break;
 
-                            case RPNOperandType.Div:  // "/="
+                            case RPNOperandType.DIV_OPERATOR:  // "/="
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b / a);
@@ -206,7 +206,7 @@ namespace com.sgcombo.RpnLib
                                 Console.WriteLine($"{b} /= {a} = {r}");
 #endif
                                 break;
-                            case RPNOperandType.Mod:  //"%=",
+                            case RPNOperandType.MOD_OPERATOR:  //"%=",
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b %= a);
@@ -214,7 +214,7 @@ namespace com.sgcombo.RpnLib
                                 Console.WriteLine($"{b} %= {a} = {r}");
 #endif
                                 break;
-                            case RPNOperandType.Less:  //"<",
+                            case RPNOperandType.LESS:  //"<",
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b < a);
@@ -222,7 +222,7 @@ namespace com.sgcombo.RpnLib
                                 Console.WriteLine($"{b} < {a} = {r}");
 #endif
                                 break;
-                            case RPNOperandType.Greater:  //">",
+                            case RPNOperandType.GREATER:  //">",
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b > a);
@@ -230,7 +230,7 @@ namespace com.sgcombo.RpnLib
                                 Console.WriteLine($"{b} > {a} = {r}");
 #endif
                                 break;
-                            case RPNOperandType.LessOrEqual:  //"<=",
+                            case RPNOperandType.LESSOREQUAL:  //"<=",
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b <= a);
@@ -238,7 +238,7 @@ namespace com.sgcombo.RpnLib
                                 Console.WriteLine($"{b} <= {a} = {r}");
 #endif
                                 break;
-                            case RPNOperandType.GreateOrEqual:  //">=",
+                            case RPNOperandType.GREATEOREQUAL:  //">=",
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b >= a);
@@ -247,7 +247,7 @@ namespace com.sgcombo.RpnLib
 #endif
                                 break;
 
-                            case RPNOperandType.NotEqual:  //"!=",
+                            case RPNOperandType.NOTEQUAL:  //"!=",
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b != a);
@@ -255,7 +255,7 @@ namespace com.sgcombo.RpnLib
                                 Console.WriteLine($"{b} !={a} = {r}");
 #endif
                                 break;
-                            case RPNOperandType.Equal:  //"=="
+                            case RPNOperandType.EQUAL:  //"=="
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b == a);
@@ -264,7 +264,7 @@ namespace com.sgcombo.RpnLib
 #endif
                                 break;
 
-                            case RPNOperandType.Or:  //"||",
+                            case RPNOperandType.OR_OPERATOR:  //"||",
                                 a1 = Convert.ToBoolean(al.Pop());
                                 b1 = Convert.ToBoolean(al.Pop());
                                 r = (b1 || a1);
@@ -274,7 +274,7 @@ namespace com.sgcombo.RpnLib
                                 break;
 
 
-                            case RPNOperandType.And:  //"&&",
+                            case RPNOperandType.AND_OPERATOR:  //"&&",
 
                                 a1 = Convert.ToBoolean(al.Pop());
                                 b1 = Convert.ToBoolean(al.Pop());
@@ -284,7 +284,7 @@ namespace com.sgcombo.RpnLib
 #endif
                                 break;
 
-                            case RPNOperandType.Not:  //"!",
+                            case RPNOperandType.NOT_OPERATOR:  //"!",
                                 a1 = Convert.ToBoolean(al.Pop());
                                 r = (!a1);
 #if DEBUG

@@ -6,31 +6,31 @@ namespace com.sgcombo.RpnLib
 {
     internal enum RPNOperandType
     {
-        Unknown,
-        StartParentheses,
-        EndParentheses,
+        UNKNOWN,
+        STAR_TPARENTHESES,
+        END_PARENTHESES,
       
 
         //operators
-        Mulitiply,
-        Divide,
-        Plus,
-        Minus,
-        Less,
-        Greater,
-        LessOrEqual,
-        GreateOrEqual,
-        NotEqual,
-        Equal,
-        Or,
-        And,
-        Not,
-        JustPlus,
-        JustMinus,
-        Arifmetical,
-        Div,
-        Exponentiation,
-        Mod
+        MULITIPLY,
+        DIVIDE,
+        PLUS,
+        MINUS,
+        LESS,
+        GREATER,
+        LESSOREQUAL,
+        GREATEOREQUAL,
+        NOTEQUAL,
+        EQUAL,
+        OR_OPERATOR,
+        AND_OPERATOR,
+        NOT_OPERATOR,
+        JUSTPLUS,
+        JUSTMINUS,
+        ARIFMETICAL,
+        DIV_OPERATOR,
+        EXPONENTIATION,
+        MOD_OPERATOR
     };
 
     internal class OperationConvertor
@@ -41,29 +41,29 @@ namespace com.sgcombo.RpnLib
 
         public static Dictionary<string, RPNOperandType> GetOperation = new Dictionary<string, RPNOperandType>()
         {
-{ "*",RPNOperandType.Mulitiply},
-{ "/",RPNOperandType.Divide},
-{ "÷",RPNOperandType.Divide},
-{ "/=",RPNOperandType.Div},
-{ "^",RPNOperandType.Exponentiation },
-{ "%=",RPNOperandType.Mod },
-{ "+",RPNOperandType.Plus},
-{ "-",RPNOperandType.Minus},
-{ "~",RPNOperandType.JustMinus},
-{ "<",RPNOperandType.Less},
-{ ">",RPNOperandType.Greater},
-{ "<=",RPNOperandType.LessOrEqual},
-{ "≤",RPNOperandType.LessOrEqual},
-{ ">=",RPNOperandType.GreateOrEqual},
-{ "≥",RPNOperandType.GreateOrEqual},
-{ "!=",RPNOperandType.NotEqual},
-{ "==",RPNOperandType.Equal},
-{ "=",RPNOperandType.Equal},
-{ "||",RPNOperandType.Or},
-{ "&&",RPNOperandType.And},
-{ "!",RPNOperandType.Not},
-{ "(",RPNOperandType.StartParentheses },
-{ ")",RPNOperandType.EndParentheses }
+{ "*",RPNOperandType.MULITIPLY},
+{ "/",RPNOperandType.DIVIDE},
+{ "÷",RPNOperandType.DIVIDE},
+{ "/=",RPNOperandType.DIV_OPERATOR},
+{ "^",RPNOperandType.EXPONENTIATION },
+{ "%=",RPNOperandType.MOD_OPERATOR },
+{ "+",RPNOperandType.PLUS},
+{ "-",RPNOperandType.MINUS},
+{ "~",RPNOperandType.JUSTMINUS},
+{ "<",RPNOperandType.LESS},
+{ ">",RPNOperandType.GREATER},
+{ "<=",RPNOperandType.LESSOREQUAL},
+{ "≤",RPNOperandType.LESSOREQUAL},
+{ ">=",RPNOperandType.GREATEOREQUAL},
+{ "≥",RPNOperandType.GREATEOREQUAL},
+{ "!=",RPNOperandType.NOTEQUAL},
+{ "==",RPNOperandType.EQUAL},
+{ "=",RPNOperandType.EQUAL},
+{ "||",RPNOperandType.OR_OPERATOR},
+{ "&&",RPNOperandType.AND_OPERATOR},
+{ "!",RPNOperandType.NOT_OPERATOR},
+{ "(",RPNOperandType.STAR_TPARENTHESES },
+{ ")",RPNOperandType.END_PARENTHESES }
 
         };
 
