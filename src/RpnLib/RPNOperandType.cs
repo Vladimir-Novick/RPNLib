@@ -31,7 +31,7 @@ namespace com.sgcombo.RpnLib
         Div,
         Exponentiation,
         Mod
-    }
+    };
 
     internal class OperationConvertor
     {
@@ -67,5 +67,5 @@ namespace com.sgcombo.RpnLib
 
         };
 
-    }
+    };
 }
