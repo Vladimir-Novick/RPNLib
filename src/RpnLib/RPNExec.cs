@@ -198,7 +198,7 @@ namespace com.sgcombo.RpnLib
 #endif
                                 break;
 
-                            case RPNOperandType.DIV_OPERATOR:  // "/="
+                            case RPNOperandType.DIV:  // "/="
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b / a);
@@ -206,7 +206,7 @@ namespace com.sgcombo.RpnLib
                                 Console.WriteLine($"{b} /= {a} = {r}");
 #endif
                                 break;
-                            case RPNOperandType.MOD_OPERATOR:  //"%=",
+                            case RPNOperandType.MOD:  //"%=",
                                 a = Convert.ToDouble(al.Pop());
                                 b = Convert.ToDouble(al.Pop());
                                 r = (b %= a);
@@ -264,7 +264,7 @@ namespace com.sgcombo.RpnLib
 #endif
                                 break;
 
-                            case RPNOperandType.OR_OPERATOR:  //"||",
+                            case RPNOperandType.OR:  //"||",
                                 a1 = Convert.ToBoolean(al.Pop());
                                 b1 = Convert.ToBoolean(al.Pop());
                                 r = (b1 || a1);
@@ -274,7 +274,7 @@ namespace com.sgcombo.RpnLib
                                 break;
 
 
-                            case RPNOperandType.AND_OPERATOR:  //"&&",
+                            case RPNOperandType.AND:  //"&&",
 
                                 a1 = Convert.ToBoolean(al.Pop());
                                 b1 = Convert.ToBoolean(al.Pop());
@@ -284,7 +284,7 @@ namespace com.sgcombo.RpnLib
 #endif
                                 break;
 
-                            case RPNOperandType.NOT_OPERATOR:  //"!",
+                            case RPNOperandType.NOT:  //"!",
                                 a1 = Convert.ToBoolean(al.Pop());
                                 r = (!a1);
 #if DEBUG

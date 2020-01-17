@@ -38,7 +38,7 @@ namespace com.sgcombo.RpnLib
                 {
 
                     case RPNOperandType.END_PARENTHESES:
-                    case RPNOperandType.STAR_TPARENTHESES:
+                    case RPNOperandType.START_PARENTHESES:
                         order = 1;
                         break;
                     case RPNOperandType.PLUS:
@@ -50,15 +50,15 @@ namespace com.sgcombo.RpnLib
                     case RPNOperandType.GREATEOREQUAL:
                     case RPNOperandType.NOTEQUAL:
                     case RPNOperandType.EQUAL:
-                    case RPNOperandType.OR_OPERATOR:
-                    case RPNOperandType.AND_OPERATOR:
-                    case RPNOperandType.NOT_OPERATOR:
+                    case RPNOperandType.OR:
+                    case RPNOperandType.AND:
+                    case RPNOperandType.NOT:
                         order = 3;
                         break;
                     case RPNOperandType.MULITIPLY:
                     case RPNOperandType.DIVIDE:
-                    case RPNOperandType.DIV_OPERATOR:
-                    case RPNOperandType.MOD_OPERATOR:
+                    case RPNOperandType.DIV:
+                    case RPNOperandType.MOD:
 
                         order = 4;
                         break;

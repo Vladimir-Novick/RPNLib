@@ -7,7 +7,7 @@ namespace com.sgcombo.RpnLib
     internal enum RPNOperandType
     {
         UNKNOWN,
-        STAR_TPARENTHESES,
+        START_PARENTHESES,
         END_PARENTHESES,
       
 
@@ -22,15 +22,15 @@ namespace com.sgcombo.RpnLib
         GREATEOREQUAL,
         NOTEQUAL,
         EQUAL,
-        OR_OPERATOR,
-        AND_OPERATOR,
-        NOT_OPERATOR,
+        OR,
+        AND,
+        NOT,
         JUSTPLUS,
         JUSTMINUS,
         ARIFMETICAL,
-        DIV_OPERATOR,
+        DIV,
         EXPONENTIATION,
-        MOD_OPERATOR
+        MOD
     };
 
     internal class OperationConvertor
@@ -44,9 +44,9 @@ namespace com.sgcombo.RpnLib
 { "*",RPNOperandType.MULITIPLY},
 { "/",RPNOperandType.DIVIDE},
 { "÷",RPNOperandType.DIVIDE},
-{ "/=",RPNOperandType.DIV_OPERATOR},
+{ "/=",RPNOperandType.DIV},
 { "^",RPNOperandType.EXPONENTIATION },
-{ "%=",RPNOperandType.MOD_OPERATOR },
+{ "%=",RPNOperandType.MOD },
 { "+",RPNOperandType.PLUS},
 { "-",RPNOperandType.MINUS},
 { "~",RPNOperandType.JUSTMINUS},
@@ -59,10 +59,10 @@ namespace com.sgcombo.RpnLib
 { "!=",RPNOperandType.NOTEQUAL},
 { "==",RPNOperandType.EQUAL},
 { "=",RPNOperandType.EQUAL},
-{ "||",RPNOperandType.OR_OPERATOR},
-{ "&&",RPNOperandType.AND_OPERATOR},
-{ "!",RPNOperandType.NOT_OPERATOR},
-{ "(",RPNOperandType.STAR_TPARENTHESES },
+{ "||",RPNOperandType.OR},
+{ "&&",RPNOperandType.AND},
+{ "!",RPNOperandType.NOT},
+{ "(",RPNOperandType.START_PARENTHESES },
 { ")",RPNOperandType.END_PARENTHESES }
 
         };
