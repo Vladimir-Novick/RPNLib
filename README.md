@@ -64,7 +64,7 @@ Functions:
 
 | Functions  |         Definition            |
 | -----------|------------------------------ |
-|If(x)|x - logical expression . if true next expression is executed| 
+|If(x,y,z)|x - logical expression . if true next expression is executed| 
 |ACos(x)| Arccosine function.| 
 |ASin(x)| returns the Inverse Sin  |
 |ATan(x)|Arctan(x), tan-1(x), inverse tangent function. |

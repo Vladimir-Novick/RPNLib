@@ -61,7 +61,7 @@ namespace com.sgcombo.RpnLib
 
                 if (expr[i] == '\'')
                 {
-                    while (!(expr[i] == '\''))
+                    do
                     {
                         tok += expr[i];
                         i++;
@@ -69,14 +69,11 @@ namespace com.sgcombo.RpnLib
                         {
                             throw new Exception($"Invalid string [{tok}]");
                         }
-                    }
-                    if (i <= expr.Length - 1)
-                    {
-                        {
-                            tok += expr[i];
-                            i++;
-                        }
-                    }
+                    } while (!(expr[i] == '\''));
+
+                    tok += expr[i];
+                    i++;
+
                     token.sType = RPNTokenType.STRING;
                     token.sToken = tok;
                     Tokens.Add(token);
@@ -131,28 +128,31 @@ namespace com.sgcombo.RpnLib
 
                 if (i > expr.Length - 1) { break; }
 
-                if (char.IsLetter(expr[i]))
+                if (char.IsLetter(expr[i]) || (expr[i] == ':'))
                 {
-                    while (char.IsLetter(expr[i]) || (char.IsDigit(expr[i]) || (expr[i] == '_')))
+
+                    do
                     {
                         tok += expr[i];
                         i++;
+
                         if (i > expr.Length - 1) { break; }
-                    }
+
+                    } while (char.IsLetter(expr[i]) || (char.IsDigit(expr[i]) || (expr[i] == '_')));
                     token.sType = RPNTokenType.ALPHA;
                     if (i < expr.Length)
                     {
                         if (expr[i] == '(')
                         {
                             tok += "$";
-                          
+
                             token.sType = RPNTokenType.FUNCTION;
                         }
                         if (expr[i] == '$')
                         {
                             tok += "$";
                             i++;
-                           
+
                             token.sType = RPNTokenType.FUNCTION;
                         }
                     }
@@ -172,7 +172,7 @@ namespace com.sgcombo.RpnLib
                     Tokens.Add(token);
                 }
                 else
-                if ((i+1 < expr.Length) && ((isDoubleOperation( expr[i].ToString() + expr[i + 1]))))
+                if ((i + 1 < expr.Length) && ((isDoubleOperation(expr[i].ToString() + expr[i + 1]))))
                 {
                     tok = expr[i].ToString();
                     tok = tok + expr[i + 1];
@@ -196,10 +196,16 @@ namespace com.sgcombo.RpnLib
 
                     token.OperandType = RPNOperandType.ARIFMETICAL;
                     OperationConvertor.GetOperation.TryGetValue(tok, out token.Operation);
-                    
+
                     if (token.Operation == RPNOperandType.MINUS)
                     {
-                        if (Tokens.Count > 0 && ((Tokens[Tokens.Count-1].sType == RPNTokenType.OPERAND)))
+                        if (Tokens.Count == 0)
+                        {
+                            token.Operation = RPNOperandType.JUSTMINUS;
+                            token.sToken = tok = "~";
+                        }
+                        else
+                        if (Tokens.Count > 0 && ((Tokens[Tokens.Count - 1].sType == RPNTokenType.OPERAND)))
                         {
                             if (Tokens[Tokens.Count - 1].Operation != RPNOperandType.END_PARENTHESES)
                             {

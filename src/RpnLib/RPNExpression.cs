@@ -9,6 +9,7 @@ namespace com.sgcombo.RpnLib
 
 
         private List<RPNToken> Tokens = new List<RPNToken>();
+        private List<String> Arguments = new List<string>();
         private string m_expr = string.Empty;
 
         public RPNExpression(string expr)
@@ -20,8 +21,14 @@ namespace com.sgcombo.RpnLib
         {
             return m_expr;
         }
-
-
+        /// <summary>
+        ///    return list og argument be expression
+        /// </summary>
+        /// <returns></returns>
+        public List<String> GetCalcArguments()
+        {
+            return Arguments;
+        }
 
         int precedence(RPNToken token)
         {
@@ -107,8 +114,19 @@ namespace com.sgcombo.RpnLib
                 tok = Tokens[x];
                 types = tok.sType;
 
+                if (types == RPNTokenType.ALPHA)
+                {
+                    if (!Arguments.Contains(tok.sToken))
+                    {
+                        Arguments.Add(tok.sToken);
+                    }
+                }
+
                 //Check for numbers
-                if (types == RPNTokenType.NONE || types == RPNTokenType.NUMBER || types == RPNTokenType.ALPHA || types == RPNTokenType.STRING)
+                if (types == RPNTokenType.NONE ||
+                    types == RPNTokenType.NUMBER ||
+                    types == RPNTokenType.ALPHA ||
+                    types == RPNTokenType.STRING)
                 {
                     //Push number onto postfix stack.
                     postfix.Push(tok);

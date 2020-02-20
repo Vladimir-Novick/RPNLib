@@ -5,7 +5,22 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace com.sgcombo.RpnLib
 {
     [TestClass]
-    public class UnitTestLogical
+    public class StringTest
+    {
+        [TestMethod]
+        public void SimpleString()
+        {
+            var compiler = new RPNExpression("'aaaaa'");
+            Console.WriteLine("Source string: " + compiler.GetSourceString());
+            var RPNString = compiler.Prepare();
+            Console.WriteLine($"RPNString : {RPNString}");
+            var rezult = compiler.Calculate().ToString();
+            Console.WriteLine("Rezult  " + rezult);
+            Assert.IsTrue(rezult.Equals("aaaaa"));
+        }
+    }
+    [TestClass]
+    public class TestLogical
     {
         [TestMethod]
         public void AND_False()
@@ -171,7 +186,7 @@ namespace com.sgcombo.RpnLib
 
     }
     [TestClass]
-    public class UnitTestMathematical
+    public class Mathematical
     {
         [TestMethod]
         public void TestMethod1()
@@ -221,12 +236,19 @@ namespace com.sgcombo.RpnLib
 
 
         [TestMethod]
-        public void TestMethodVar()
+        public void ArgumentList()
         {
             var compiler = new RPNExpression("4/12*100+(A*B)");
             Console.WriteLine("Source string: " + compiler.GetSourceString());
             var RPNString = compiler.Prepare();
             Console.WriteLine($"RPNString : {RPNString}");
+
+            var arg = compiler.GetCalcArguments();
+
+            foreach (var p in arg)
+            {
+                Console.WriteLine("argument:  <" + p + ">");
+            }
 
             List<RPNArguments> arguments = new List<RPNArguments>();
             arguments.Add(new RPNArguments("A", 2));
@@ -235,10 +257,95 @@ namespace com.sgcombo.RpnLib
             Console.WriteLine("Rezult  " + rezult);
         }
 
+
+        [TestMethod]
+        public void Alias()
+        {
+            var compiler = new RPNExpression("4/12*100+(:A*:B)");
+            Console.WriteLine("Source string: " + compiler.GetSourceString());
+            var RPNString = compiler.Prepare();
+            Console.WriteLine($"RPNString : {RPNString}");
+
+            var arg = compiler.GetCalcArguments();
+
+            foreach (var p in arg)
+            {
+                Console.WriteLine("argument:  <" + p + ">");
+            }
+
+            List<RPNArguments> arguments = new List<RPNArguments>();
+            arguments.Add(new RPNArguments(":A", 2));
+            arguments.Add(new RPNArguments(":B", 7));
+            var rezult = compiler.Calculate(arguments).ToString();
+            Console.WriteLine("Rezult  " + rezult);
+        }
+
+
+
         [TestMethod]
         public void JustMinus()
         {
             var compiler = new RPNExpression("12+-12");
+            Console.WriteLine("Source string: " + compiler.GetSourceString());
+            var RPNString = compiler.Prepare();
+            Console.WriteLine($"RPNString : {RPNString}");
+
+            var rezult = compiler.Calculate().ToString();
+            Console.WriteLine("Rezult  " + rezult);
+        }
+
+        [TestMethod]
+        public void JustMinusOnly()
+        {
+            var compiler = new RPNExpression("-12");
+            Console.WriteLine("Source string: " + compiler.GetSourceString());
+            var RPNString = compiler.Prepare();
+            Console.WriteLine($"RPNString : {RPNString}");
+
+            var rezult = compiler.Calculate().ToString();
+            Console.WriteLine("Rezult  " + rezult);
+        }
+
+        [TestMethod]
+        public void JustMinusAndArifmetical ()
+        {
+            var compiler = new RPNExpression("-12+12");
+            Console.WriteLine("Source string: " + compiler.GetSourceString());
+            var RPNString = compiler.Prepare();
+            Console.WriteLine($"RPNString : {RPNString}");
+
+            var rezult = compiler.Calculate().ToString();
+            Console.WriteLine("Rezult  " + rezult);
+        }
+
+        [TestMethod]
+        public void JustMinus2()
+        {
+            var compiler = new RPNExpression("-(12+12)");
+            Console.WriteLine("Source string: " + compiler.GetSourceString());
+            var RPNString = compiler.Prepare();
+            Console.WriteLine($"RPNString : {RPNString}");
+
+            var rezult = compiler.Calculate().ToString();
+            Console.WriteLine("Rezult  " + rezult);
+        }
+
+        [TestMethod]
+        public void JustMinus3()
+        {
+            var compiler = new RPNExpression("-(-12+12)");
+            Console.WriteLine("Source string: " + compiler.GetSourceString());
+            var RPNString = compiler.Prepare();
+            Console.WriteLine($"RPNString : {RPNString}");
+
+            var rezult = compiler.Calculate().ToString();
+            Console.WriteLine("Rezult  " + rezult);
+        }
+
+        [TestMethod]
+        public void JustMinus4()
+        {
+            var compiler = new RPNExpression("-(-11+12)");
             Console.WriteLine("Source string: " + compiler.GetSourceString());
             var RPNString = compiler.Prepare();
             Console.WriteLine($"RPNString : {RPNString}");

@@ -154,9 +154,10 @@ namespace com.sgcombo.RpnLib
                                 r = -a;
                                 break;
                             case RPNOperandType.MINUS:
-                                a = Convert.ToDouble(al.Pop());
+                                var t = al.Pop();
+                                a = Convert.ToDouble(t);
                                 var b12 = al.Pop();
-                                if ("DateTime" == b12.GetType().Name)
+                                if ( b12 is DateTime)
                                 {
                                     DateTime dDateTime = (DateTime)b12;
                                     r = dDateTime.AddHours(-a);
