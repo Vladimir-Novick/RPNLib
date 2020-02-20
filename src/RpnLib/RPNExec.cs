@@ -5,19 +5,25 @@ using System.Collections.Generic;
 namespace com.sgcombo.RpnLib
 {
 
-    internal class RPNExec
+    class RPNExec
     {
 
         private List<RPNToken> Tokens = new List<RPNToken>();
         private Stack<object> al;
         private Dictionary<string, RPNArguments> vars = new Dictionary<string, RPNArguments>();
-        private RPNEnvironment Environment = new RPNEnvironment();
+        static private RPNEnvironment Environment = new RPNEnvironment();
         public RPNExec(List<RPNToken> _Tokens)
         {
             Tokens = _Tokens;
+           
+        }
+
+        static RPNExec()
+        {
             RPNFunctions.RegisterFunctions(Environment);
         }
 
+        
 
         public object Exec()
         {
@@ -40,17 +46,19 @@ namespace com.sgcombo.RpnLib
                 {
                     case RPNTokenType.NONE:
                         break;
-                    case RPNTokenType.ALPHA:
-                        if (tok.Equals("true"))
+                    case RPNTokenType.BOOL:
+                        if (tok.ToLower().Equals("true"))
                         {
                             al.Push(true);
                             break;
                         }
-                        if (tok.Equals("false"))
+                        else
                         {
                             al.Push(false);
                             break;
                         }
+                        break;
+                    case RPNTokenType.ALPHA:
                         if (vars.TryGetValue(tok, out RPNArguments arg))
                         {
                             a = arg.value;
@@ -69,7 +77,7 @@ namespace com.sgcombo.RpnLib
                         break;
                     case RPNTokenType.FUNCTION:
 
-                        if (this.Environment != null)
+                        if (Environment != null)
                         {
 
 #if DEBUG
@@ -80,7 +88,7 @@ namespace com.sgcombo.RpnLib
                             funcName = funcName.Substring(0, funcName.Length - 1);
 
 
-                            var func = this.Environment.FindFunction(funcName);
+                            var func = Environment.FindFunction(funcName);
                             if (func != null)
                             {
                                 FunctionAttribute funcAttrib = (FunctionAttribute)Attribute.GetCustomAttribute(func.GetType(), typeof(FunctionAttribute));

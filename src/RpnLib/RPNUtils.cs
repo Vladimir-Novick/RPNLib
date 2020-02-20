@@ -140,7 +140,14 @@ namespace com.sgcombo.RpnLib
 
                     } while (char.IsLetter(expr[i]) || (char.IsDigit(expr[i]) || (expr[i] == '_')));
                     token.sType = RPNTokenType.ALPHA;
-                    if (i < expr.Length)
+                    var t = tok.ToLower();
+                    if (t.Equals("true") || t.Equals("false"))
+                    {
+                        token.sType = RPNTokenType.BOOL;
+                        tok = t;
+                    }
+                    else
+                        if (i < expr.Length)
                     {
                         if (expr[i] == '(')
                         {

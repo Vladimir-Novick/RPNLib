@@ -7,6 +7,7 @@
         NUMBER,
         OPERAND,
         STRING,
+        BOOL,
         FUNCTION
     };
 
