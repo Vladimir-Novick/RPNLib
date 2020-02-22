@@ -142,7 +142,7 @@ namespace com.sgcombo.RpnLib
                             case RPNOperandType.PLUS:
                                 a = Convert.ToDouble(al.Pop());
                                 var b11 = al.Pop();
-                                if ("DateTime" == b11.GetType().Name)
+                                if (b11 is DateTime)
                                 {
                                     DateTime dDateTime = (DateTime)b11;
                                     r = dDateTime.AddHours(a);

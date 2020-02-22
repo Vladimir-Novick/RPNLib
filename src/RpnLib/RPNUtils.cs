@@ -67,12 +67,19 @@ namespace com.sgcombo.RpnLib
                         i++;
                         if (i > expr.Length - 1)
                         {
-                            throw new Exception($"Invalid string [{tok}]");
+                            throw new Exception($"Invalid string [{tok}] , Expression [{expr}]");
                         }
                     } while (!(expr[i] == '\''));
 
-                    tok += expr[i];
-                    i++;
+                    if (i <= expr.Length - 1)
+                    {
+                        tok += expr[i];
+                        i++;
+                    }
+                    else
+                    {
+                        throw new Exception($"Invalid string [{tok}] , Expression [{expr}]");
+                    }
 
                     token.sType = RPNTokenType.STRING;
                     token.sToken = tok;
@@ -96,7 +103,11 @@ namespace com.sgcombo.RpnLib
                             i++;
                         }
                     }
-                    token.sType = RPNTokenType.STRING;
+                    else
+                    {
+                        throw new Exception($"Invalid string [{tok}] , Expression [{expr}]");
+                    }
+                    token.sType = RPNTokenType.ALPHA;
                     token.sToken = tok;
                     Tokens.Add(token);
                 }
@@ -111,7 +122,7 @@ namespace com.sgcombo.RpnLib
                         i++;
                         if (i > expr.Length - 1)
                         {
-                            throw new Exception($"Invalid string [{tok}]");
+                            throw new Exception($"Invalid string [{tok}] , Expression [{expr}]");
                         }
                     }
                     if (i <= expr.Length - 1)
@@ -120,6 +131,10 @@ namespace com.sgcombo.RpnLib
                             tok += expr[i];
                             i++;
                         }
+                    }
+                    else
+                    {
+                        throw new Exception($"Invalid string [{tok}] , Expression [{expr}]");
                     }
                     token.sType = RPNTokenType.STRING;
                     token.sToken = tok;
@@ -147,20 +162,22 @@ namespace com.sgcombo.RpnLib
                         tok = t;
                     }
                     else
-                        if (i < expr.Length)
                     {
-                        if (expr[i] == '(')
+                        if (i < expr.Length)
                         {
-                            tok += "$";
+                            if (expr[i] == '(')
+                            {
+                                tok += "$";
 
-                            token.sType = RPNTokenType.FUNCTION;
-                        }
-                        if (expr[i] == '$')
-                        {
-                            tok += "$";
-                            i++;
+                                token.sType = RPNTokenType.FUNCTION;
+                            }
+                            if (expr[i] == '$')
+                            {
+                                tok += "$";
+                                i++;
 
-                            token.sType = RPNTokenType.FUNCTION;
+                                token.sType = RPNTokenType.FUNCTION;
+                            }
                         }
                     }
                     token.sToken = tok;

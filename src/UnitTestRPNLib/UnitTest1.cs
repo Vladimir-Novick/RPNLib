@@ -255,6 +255,7 @@ namespace com.sgcombo.RpnLib
             arguments.Add(new RPNArguments("B", 7));
             var rezult = compiler.Calculate(arguments).ToString();
             Console.WriteLine("Rezult  " + rezult);
+            Assert.IsTrue("47.3333333333333" == rezult);
         }
 
 
@@ -278,8 +279,31 @@ namespace com.sgcombo.RpnLib
             arguments.Add(new RPNArguments(":B", 7));
             var rezult = compiler.Calculate(arguments).ToString();
             Console.WriteLine("Rezult  " + rezult);
+            Assert.IsTrue("47.3333333333333" == rezult);
         }
 
+        [TestMethod]
+        public void Alias2()
+        {
+            var compiler = new RPNExpression("4/12*100+([:A]*[B])");
+            Console.WriteLine("Source string: " + compiler.GetSourceString());
+            var RPNString = compiler.Prepare();
+            Console.WriteLine($"RPNString : {RPNString}");
+
+            var arg = compiler.GetCalcArguments();
+
+            foreach (var p in arg)
+            {
+                Console.WriteLine("argument:  <" + p + ">");
+            }
+
+            List<RPNArguments> arguments = new List<RPNArguments>();
+            arguments.Add(new RPNArguments("[:A]", 2));
+            arguments.Add(new RPNArguments("[B]", 7));
+            var rezult = compiler.Calculate(arguments).ToString();
+            Console.WriteLine("Rezult  " + rezult);
+            Assert.IsTrue("47.3333333333333" == rezult);
+        }
 
 
         [TestMethod]

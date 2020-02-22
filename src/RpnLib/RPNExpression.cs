@@ -95,7 +95,10 @@ namespace com.sgcombo.RpnLib
         }
 
         private List<RPNToken> execTokens = new List<RPNToken>();
-
+        /// <summary>
+        ///  Make token list and translate list tokens to Reverse Polish Notation
+        /// </summary>
+        /// <returns></returns>
         public string Prepare()
         {
             int x = 0;
@@ -126,6 +129,7 @@ namespace com.sgcombo.RpnLib
                 if (types == RPNTokenType.NONE ||
                     types == RPNTokenType.NUMBER ||
                     types == RPNTokenType.ALPHA ||
+                     types == RPNTokenType.BOOL ||
                     types == RPNTokenType.STRING)
                 {
                     //Push number onto postfix stack.
