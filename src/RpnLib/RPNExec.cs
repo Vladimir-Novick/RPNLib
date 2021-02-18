@@ -27,7 +27,7 @@ namespace com.sgcombo.RpnLib
 
         public object Exec()
         {
-
+            double tempDouble;
             object ret = "";
             int i = 0;
             double a = 0;
@@ -70,7 +70,9 @@ namespace com.sgcombo.RpnLib
                         }
                         break;
                     case RPNTokenType.NUMBER:
-                        al.Push(double.Parse(tok));
+                        tempDouble = 0;
+                        RPNUtils.TryToDouble(tok, out tempDouble);
+                        al.Push(tempDouble);
                         break;
                     case RPNTokenType.STRING:
                         al.Push(tok.Substring(1, tok.Length - 2));
