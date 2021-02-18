@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace com.sgcombo.RpnLib
 {
@@ -188,6 +190,63 @@ namespace com.sgcombo.RpnLib
     [TestClass]
     public class Mathematical
     {
+
+        [TestMethod]
+        public void ToDoubleTest()
+        {
+            List<string> inputs = new List<string>()
+{
+    "1.234.567,89",
+    "1 234 567,89",
+    "1 234 567.89",
+    "1,234,567.89",
+    "123456789",
+    "1234567,89",
+    "1234567.89",
+     "123ffff4567.89",
+};
+            foreach (string input in inputs)
+            {
+                double d;
+                bool ok;
+                ok = TryToDouble(input, out d);
+                if (ok)
+                {
+                    Console.WriteLine("OK >" + d);
+                }
+                else
+                {
+                    Console.WriteLine("failed >" + input);
+                }
+            }
+        }
+
+        public static bool TryToDouble(string input, out double d)
+        {
+
+            // Unify string (no spaces, only .)
+            string output = input.Trim().Replace(" ", "").Replace(",", ".");
+
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
+
+
+
+
         [TestMethod]
         public void TestMethod1()
         {
