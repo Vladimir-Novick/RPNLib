@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Diagnostics;
 
 namespace com.sgcombo.RpnLib
 {
@@ -187,7 +188,69 @@ namespace com.sgcombo.RpnLib
         }
 
     }
+
+
     [TestClass]
+    public class PerformenceTest
+    {
+
+        [TestMethod]
+        public void IndexOfChar_To_indexOFString()
+        {
+
+            const int PermittedRuns = 10000000;
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                string str = "1234567890qwertyuiopasdfghjkl;zxcvbnm,.";
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    int p = str.IndexOf(' ');
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("IndexOfChar = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                string str = "1234567890qwertyuiopasdfghjkl;zxcvbnm,.";
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    int p = str.IndexOf(" ");
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("IndexOfString = {0:N0} Milliseconds of PermittedRuns  {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                string str = "1234567890qwertyuiopasdfghjkl;zxcvbnm,.";
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    int p = str.IndexOf(" ", System.StringComparison.Ordinal);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("IndexOfString = {0:N0} Milliseconds of PermittedRuns  {1:N0} , System.StringComparison.Ordinal ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+
+        }
+    }
+
+
+            [TestClass]
     public class Mathematical
     {
 
@@ -205,6 +268,9 @@ namespace com.sgcombo.RpnLib
     "1234567.89",
      "123ffff4567.89",
 };
+
+            Stopwatch sw;
+            sw = Stopwatch.StartNew();
             foreach (string input in inputs)
             {
                 double d;
@@ -219,6 +285,20 @@ namespace com.sgcombo.RpnLib
                     Console.WriteLine("failed >" + input);
                 }
             }
+
+
+            const int PermittedRuns = 10000000;
+
+            for (int i = 0; i < PermittedRuns; i++)
+            {
+                double d;
+                bool ok;
+                ok = TryToDouble("1.234.567,89", out d);
+            }
+
+            sw.Stop();
+            Console.WriteLine(String.Format("try to double = {0:N0} Milliseconds of PermittedRuns %i ", sw.ElapsedMilliseconds, PermittedRuns));
+
         }
 
         public static bool TryToDouble(string input, out double d)
