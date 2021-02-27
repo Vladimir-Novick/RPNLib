@@ -4,6 +4,7 @@ using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace com.sgcombo.RpnLib
 {
@@ -194,6 +195,83 @@ namespace com.sgcombo.RpnLib
     public class PerformenceTest
     {
 
+
+        [TestMethod]
+        public void MatchTest()
+        {
+
+            const int PermittedRuns = 1000000;
+            string str = "12[34567890q] [ wertyuiopa] [ sdfghjkl] ;zxcvbnm,.";
+
+            {
+
+                var compAllMatches = new Regex(@"(\[[^\]]*\])", RegexOptions.Compiled);
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = compAllMatches.Match(str);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("Compiled regex = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = Regex.Match(str, @"(\[[^\]]*\])");
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("Match = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+        }
+
+        [TestMethod]
+        public void StartWichTest()
+        {
+
+            const int PermittedRuns = 1000000;
+            string str = "1234567] [ wertyuiopa] [ sdfghjkl] ;zxcvbnm,.";
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = str.StartsWith("1234567");
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = str.StartsWith("1234567", StringComparison.Ordinal);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} StringComparison.Ordinal ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+        }
+
+
         [TestMethod]
         public void IndexOfChar_To_indexOFString()
         {
@@ -297,7 +375,7 @@ namespace com.sgcombo.RpnLib
             }
 
             sw.Stop();
-            Console.WriteLine(String.Format("try to double = {0:N0} Milliseconds of PermittedRuns %i ", sw.ElapsedMilliseconds, PermittedRuns));
+            Console.WriteLine(String.Format("try to double = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
 
         }
 
