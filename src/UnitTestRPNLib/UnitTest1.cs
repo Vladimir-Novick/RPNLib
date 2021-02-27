@@ -271,6 +271,69 @@ namespace com.sgcombo.RpnLib
             }
         }
 
+        [TestMethod]
+        public void StartWich_IsPrefix_Test()
+        {
+
+            const int PermittedRuns = 1000000;
+            string str = "1234567] [ wertyuiopa] [ sdfghjkl] ;zxcvbnm,.";
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = str.StartsWith("1234567");
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                CompareInfo compareInfo = CultureInfo.InvariantCulture.CompareInfo;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = compareInfo.IsPrefix(str,"1234567");
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} CompareInfo ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = str.StartsWith("1234567", StringComparison.Ordinal);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} StringComparison.Ordinal ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = str.StartsWith("1234567", StringComparison.InvariantCultureIgnoreCase);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} StringComparison.InvariantCultureIgnoreCase ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+
+        }
+
 
         [TestMethod]
         public void IndexOfChar_To_indexOFString()
