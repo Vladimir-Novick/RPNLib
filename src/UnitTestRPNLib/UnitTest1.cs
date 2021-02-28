@@ -292,9 +292,10 @@ namespace com.sgcombo.RpnLib
             }
 
             {
+                CompareInfo compareInfo = CultureInfo.InvariantCulture.CompareInfo;
                 Stopwatch sw;
                 sw = Stopwatch.StartNew();
-                CompareInfo compareInfo = CultureInfo.InvariantCulture.CompareInfo;
+               
 
                 for (int i = 0; i < PermittedRuns; i++)
                 {
@@ -303,6 +304,20 @@ namespace com.sgcombo.RpnLib
 
                 sw.Stop();
                 Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} CompareInfo ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                CompareInfo compareInfo = CultureInfo.InvariantCulture.CompareInfo;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = compareInfo.IsPrefix(str, "1234567", CompareOptions.Ordinal);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} CompareInfo , CompareOptions.Ordinal ", sw.ElapsedMilliseconds, PermittedRuns));
             }
 
             {
@@ -334,8 +349,77 @@ namespace com.sgcombo.RpnLib
 
         }
 
-
         [TestMethod]
+        public void IndexOfChar_To_Contains()
+        {
+
+            const int PermittedRuns = 10000000;
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                string str = "1234567890qwertyuiopasdfghjkl;zxcvbnm,.";
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    int p = str.IndexOf(' ');
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("IndexOfChar = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                string str = "1234567890qwertyuiopasdfghjkl;zxcvbnm,.";
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    int p = str.IndexOf(" ");
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("IndexOf string = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                string str = "1234567890qwertyuiopasdfghjkl;zxcvbnm,.";
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    int p = str.IndexOf(" ",StringComparison.Ordinal);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("IndexOf string ( StringComparison.Ordinal ) = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                string str = "1234567890qwertyuiopasdfghjkl;zxcvbnm,.";
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    bool p = str.Contains(" ");
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("contains = {0:N0} Milliseconds of PermittedRuns  {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+
+        }
+
+
+            [TestMethod]
         public void IndexOfChar_To_indexOFString()
         {
 
