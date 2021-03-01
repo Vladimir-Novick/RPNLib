@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace com.sgcombo.RpnLib
 {
-    public class RPNArguments
+    public struct RPNArguments
     {
         public string name;
         public double value;

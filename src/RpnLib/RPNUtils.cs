@@ -34,15 +34,46 @@ namespace com.sgcombo.RpnLib
 
         public static bool TryToDouble(string input, out double d)
         {
+            bool isSpace = false;
+            bool isComma = false;
+            int countPoint = 0;
+            int l = input.Length;
+            char ch;
+            for (int j = 0; j < l; j++)
+            {
+                ch = input[j];
+                if (ch == ' ') isSpace = true;
+                else
+                if (ch == ',')
+                {
+                    isComma = true;
+                    countPoint++;
+                }
+                else
+                if (ch == '.')
+                {
+                    countPoint++;
+                }
+            }
 
             // Unify string (no spaces, only .)
-            string output = input.Trim().Replace(" ", "").Replace(",", ".");
-
-            // Split it on points
-            string[] split = output.Split('.');
-
-            if (split.Length > 1)
+            string output = input;
+            if (isComma)
             {
+                output = output.Replace(',', '.');
+            }
+
+            if (isSpace)
+            {
+                output = output.Replace(" ", String.Empty);
+            }
+
+
+            if (countPoint > 1)
+            {
+                // Split it on points
+                string[] split = output.Split('.');
+
                 // Take all parts except last
                 output = string.Join("", split.Take(split.Length - 1).ToArray());
 

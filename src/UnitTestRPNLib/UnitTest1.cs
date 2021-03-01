@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace com.sgcombo.RpnLib
 {
@@ -191,13 +192,38 @@ namespace com.sgcombo.RpnLib
     }
 
 
+    public struct RPNArgumentStruct
+    {
+        public string Name;
+        public string Value;
+
+        public RPNArgumentStruct(string _Name, string _Value)
+        {
+            Name = _Name;
+            Value = _Value;
+        }
+
+    }
+    public class RPNArgumentClass
+    {
+        public string Name;
+        public string Value;
+
+        public RPNArgumentClass(string _Name, string _Value)
+        {
+            Name = _Name;
+            Value = _Value;
+        }
+
+    }
+
     [TestClass]
     public class PerformenceTest
     {
 
 
         [TestMethod]
-        public void MatchTest()
+        public void ClassVsStruct()
         {
 
             const int PermittedRuns = 1000000;
@@ -292,6 +318,19 @@ namespace com.sgcombo.RpnLib
             }
 
             {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    var p = str.StartsWith("1234567",StringComparison.InvariantCultureIgnoreCase);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} ( InvariantCultureIgnoreCase ) Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
                 CompareInfo compareInfo = CultureInfo.InvariantCulture.CompareInfo;
                 Stopwatch sw;
                 sw = Stopwatch.StartNew();
@@ -303,7 +342,7 @@ namespace com.sgcombo.RpnLib
                 }
 
                 sw.Stop();
-                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} CompareInfo ", sw.ElapsedMilliseconds, PermittedRuns));
+                Console.WriteLine(String.Format("string StartsWith  = {0:N0} ( IsPrefix ) Milliseconds of PermittedRuns {1:N0} CompareInfo ", sw.ElapsedMilliseconds, PermittedRuns));
             }
 
             {
@@ -317,7 +356,7 @@ namespace com.sgcombo.RpnLib
                 }
 
                 sw.Stop();
-                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} CompareInfo , CompareOptions.Ordinal ", sw.ElapsedMilliseconds, PermittedRuns));
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} ( IsPrefix - CompareOptions.Ordinal ) Milliseconds of PermittedRuns {1:N0} CompareInfo , CompareOptions.Ordinal ", sw.ElapsedMilliseconds, PermittedRuns));
             }
 
             {
@@ -330,7 +369,7 @@ namespace com.sgcombo.RpnLib
                 }
 
                 sw.Stop();
-                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} StringComparison.Ordinal ", sw.ElapsedMilliseconds, PermittedRuns));
+                Console.WriteLine(String.Format("string StartsWith = {0:N0}  ( StringComparison.Ordinal ) Milliseconds of PermittedRuns {1:N0} StringComparison.Ordinal ", sw.ElapsedMilliseconds, PermittedRuns));
             }
 
             {
@@ -343,7 +382,7 @@ namespace com.sgcombo.RpnLib
                 }
 
                 sw.Stop();
-                Console.WriteLine(String.Format("string StartsWith = {0:N0} Milliseconds of PermittedRuns {1:N0} StringComparison.InvariantCultureIgnoreCase ", sw.ElapsedMilliseconds, PermittedRuns));
+                Console.WriteLine(String.Format("string StartsWith = {0:N0} (  StringComparison.InvariantCultureIgnoreCase ) Milliseconds of PermittedRuns {1:N0} StringComparison.InvariantCultureIgnoreCase ", sw.ElapsedMilliseconds, PermittedRuns));
             }
 
 
@@ -479,6 +518,7 @@ namespace com.sgcombo.RpnLib
     public class Mathematical
     {
 
+
         [TestMethod]
         public void ToDoubleTest()
         {
@@ -494,13 +534,44 @@ namespace com.sgcombo.RpnLib
      "123ffff4567.89",
 };
 
-            Stopwatch sw;
-            sw = Stopwatch.StartNew();
+
             foreach (string input in inputs)
             {
                 double d;
                 bool ok;
-                ok = TryToDouble(input, out d);
+                ok = TryToDouble6(input, out d);
+                if (ok)
+                {
+                    Console.WriteLine("OK >" + d);
+                }
+                else
+                {
+                    Console.WriteLine("failed >" + input);
+                }
+            }
+        }
+
+            [TestMethod]
+        public void ToDoublePerformenceTest()
+        {
+            List<string> inputs = new List<string>()
+{
+    "1.234.567,89",
+    "1 234 567,89",
+    "1 234 567.89",
+    "1,234,567.89",
+    "123456789",
+    "1234567,89",
+    "1234567.89",
+     "123ffff4567.89",
+};
+
+
+            foreach (string input in inputs)
+            {
+                double d;
+                bool ok;
+                ok = TryToDouble6(input, out d);
                 if (ok)
                 {
                     Console.WriteLine("OK >" + d);
@@ -511,19 +582,148 @@ namespace com.sgcombo.RpnLib
                 }
             }
 
-
-            const int PermittedRuns = 10000000;
-
-            for (int i = 0; i < PermittedRuns; i++)
             {
-                double d;
-                bool ok;
-                ok = TryToDouble("1.234.567,89", out d);
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
             }
 
-            sw.Stop();
-            Console.WriteLine(String.Format("try to double = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
 
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble2("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double2 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+
+                    var ok = "1.234.567,89".Replace(",", ".");
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("retplace string = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+
+                    var ok = "1.234.567,89".Replace(',', '.');
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("retplace char = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble3("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double3 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble5("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double5 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble4("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double4 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble6("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double6  {0:N0} - 1.234.567,89 -Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble6("1234567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double6  {0:N0} - 1234567,89 - Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
         }
 
         public static bool TryToDouble(string input, out double d)
@@ -549,6 +749,164 @@ namespace com.sgcombo.RpnLib
             return ret;
         }
 
+        public static bool TryToDouble3(string input, out double d)
+        {
+
+            // Unify string (no spaces, only .)
+            string output = input.Replace(" ", String.Empty).Replace(',', '.');
+
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
+
+        public static bool TryToDouble5(string input, out double d)
+        {
+
+            // Unify string (no spaces, only .)
+            string output = input.Replace(',', '.');
+
+            if (output.IndexOf(' ') != -1) {
+                output = output.Replace(" ", String.Empty);
+            }
+
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
+
+        public static bool TryToDouble6(string input, out double d)
+        {
+            bool isSpace = false;
+            bool isComma = false;
+            int countPoint = 0;
+            int l = input.Length;
+            char ch;
+            for (int j = 0; j < l; j++)
+            {
+                ch = input[j];
+                if (ch == ' ') isSpace = true;
+                else
+                if (ch == ',')
+                {
+                    isComma = true;
+                    countPoint++;
+                } else
+                if (ch == '.')
+                {
+                    countPoint++;
+                }
+            }
+
+            // Unify string (no spaces, only .)
+            string output = input;
+            if (isComma)
+            {
+                output = output.Replace(',', '.');
+            }
+
+            if (isSpace)
+            {
+                output = output.Replace(" ", String.Empty);
+            }
+
+
+            if (countPoint > 1)
+            {
+                // Split it on points
+                string[] split = output.Split('.');
+
+                    // Take all parts except last
+                    output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                    // Combine token parts with last part
+                    output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
+
+        public static bool TryToDouble4(string input, out double d)
+        {
+
+            // Unify string (no spaces, only .)
+            string output = input.Replace(" ", String.Empty).Replace(',', '.');
+
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            d = Convert.ToDouble(output);
+            return true;
+        }
+
+
+        public static bool TryToDouble2(string input, out double d)
+        {
+          
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < input.Length; i++)
+            {
+                // Unify string (no spaces, only .)
+                if (input[i] != ' ')
+                {
+                    if (input[i] == ',') sb.Append('.');
+                    else sb.Append(input[i]);
+                }
+                
+            }
+            string output = sb.ToString();
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
 
 
 
