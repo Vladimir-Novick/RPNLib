@@ -217,50 +217,94 @@ namespace com.sgcombo.RpnLib
 
     }
 
+
+
     [TestClass]
     public class PerformenceTest
     {
 
+    private static void TestStringIndexOf(string input, StringComparison stringComparison)
+    {
+        var count = 0;
+            Stopwatch sw;
+            sw = Stopwatch.StartNew();
+
+            for (var index = 0; index != 1000000; index++)
+        {
+            count = input.IndexOf("<script", 0, stringComparison);
+        }
+
+            sw.Stop();
+           
+
+        Console.WriteLine("{0}", stringComparison);
+        Console.WriteLine("Total time: {0}", sw.ElapsedMilliseconds);
+        Console.WriteLine("--------------------------------");
+    }
+
+        private static void TestStringIndexOf_NotStart(string input, StringComparison stringComparison)
+        {
+            var count = 0;
+            Stopwatch sw;
+            sw = Stopwatch.StartNew();
+
+            for (var index = 0; index != 1000000; index++)
+            {
+                count = input.IndexOf("<script", stringComparison);
+            }
+
+            sw.Stop();
+
+
+            Console.WriteLine("{0} not start 0", stringComparison);
+            Console.WriteLine("Total time: {0}", sw.ElapsedMilliseconds);
+            Console.WriteLine("--------------------------------");
+        }
+
+
+        private static void TestStringIndexOf_default(string input)
+        {
+            var count = 0;
+            Stopwatch sw;
+            sw = Stopwatch.StartNew();
+
+            for (var index = 0; index != 1000000; index++)
+            {
+                count = input.IndexOf("<script");
+            }
+
+            sw.Stop();
+
+
+            Console.WriteLine("Defailt StringOf");
+            Console.WriteLine("Total time: {0}", sw.ElapsedMilliseconds);
+            Console.WriteLine("--------------------------------");
+        }
 
         [TestMethod]
-        public void ClassVsStruct()
+        public void StringIndexOfTest()
         {
 
-            const int PermittedRuns = 1000000;
-            string str = "12[34567890q] [ wertyuiopa] [ sdfghjkl] ;zxcvbnm,.";
-
-            {
-
-                var compAllMatches = new Regex(@"(\[[^\]]*\])", RegexOptions.Compiled);
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
+            var input = "Hello world, This is test string";
 
 
+            TestStringIndexOf_default(input);
 
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-                    var p = compAllMatches.Match(str);
-                }
+            TestStringIndexOf(input,          StringComparison.CurrentCulture);
+            TestStringIndexOf_NotStart(input, StringComparison.CurrentCulture);
+            Console.WriteLine("");
 
-                sw.Stop();
-                Console.WriteLine(String.Format("Compiled regex = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
+            TestStringIndexOf(input,          StringComparison.InvariantCulture);
+            TestStringIndexOf_NotStart(input, StringComparison.InvariantCulture);
+            Console.WriteLine("");
 
-            {
+            TestStringIndexOf(input,          StringComparison.Ordinal);
+            TestStringIndexOf_NotStart(input, StringComparison.Ordinal);
+            Console.WriteLine("");
 
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
+            TestStringIndexOf(input,          StringComparison.OrdinalIgnoreCase);
+            TestStringIndexOf_NotStart(input, StringComparison.OrdinalIgnoreCase);
 
-
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-                    var p = Regex.Match(str, @"(\[[^\]]*\])");
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("Match = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
         }
 
         [TestMethod]
