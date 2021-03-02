@@ -238,7 +238,7 @@ namespace com.sgcombo.RpnLib
            
 
         Console.WriteLine("{0}", stringComparison);
-        Console.WriteLine("Total time: {0}", sw.ElapsedMilliseconds);
+        Console.WriteLine("Total time: {0:N0}", sw.ElapsedMilliseconds);
         Console.WriteLine("--------------------------------");
     }
 
@@ -257,7 +257,7 @@ namespace com.sgcombo.RpnLib
 
 
             Console.WriteLine("{0} not start 0", stringComparison);
-            Console.WriteLine("Total time: {0}", sw.ElapsedMilliseconds);
+            Console.WriteLine("Total time: {0:N0}", sw.ElapsedMilliseconds);
             Console.WriteLine("--------------------------------");
         }
 
@@ -277,8 +277,55 @@ namespace com.sgcombo.RpnLib
 
 
             Console.WriteLine("Defailt StringOf");
-            Console.WriteLine("Total time: {0}", sw.ElapsedMilliseconds);
+            Console.WriteLine("Total time: {0:N0}", sw.ElapsedMilliseconds);
             Console.WriteLine("--------------------------------");
+        }
+
+        [TestMethod]
+        public  void TryCatchTest()
+        {
+            var input = "Hello world, This is test string";
+            {
+                var count = 0;
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                for (var index = 0; index != 1000000; index++)
+                {
+                    count = input.IndexOf("<script");
+                }
+
+                sw.Stop();
+
+
+                Console.WriteLine("without try cach");
+                Console.WriteLine("Total time: {0:N0}", sw.ElapsedMilliseconds);
+                Console.WriteLine("--------------------------------");
+            }
+
+            {
+                var count = 0;
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+
+                for (var index = 0; index != 1000000; index++)
+                {
+                    try
+                    {
+                        count = input.IndexOf("<script");
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                sw.Stop();
+
+
+                Console.WriteLine("using try catch");
+                Console.WriteLine("Total time: {0:N0}", sw.ElapsedMilliseconds);
+                Console.WriteLine("--------------------------------");
+            }
         }
 
         [TestMethod]
