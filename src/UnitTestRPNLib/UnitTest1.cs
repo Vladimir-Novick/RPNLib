@@ -10,7 +10,7 @@ using System.Text;
 namespace com.sgcombo.RpnLib
 {
     [TestClass]
-    public class StringTest
+    public class RPNExpressionTest
     {
         [TestMethod]
         public void SimpleString()
@@ -281,8 +281,490 @@ namespace com.sgcombo.RpnLib
             Console.WriteLine("--------------------------------");
         }
 
+
+
         [TestMethod]
-        public  void TryCatchTest()
+        public void ToDoubleTest()
+        {
+            List<string> inputs = new List<string>()
+{
+    "1.234.567,89",
+    "1 234 567,89",
+    "1 234 567.89",
+    "1,234,567.89",
+    "123456789",
+    "1234567,89",
+    "1234567.89",
+     "123ffff4567.89",
+};
+
+
+            foreach (string input in inputs)
+            {
+                double d;
+                bool ok;
+                ok = TryToDouble6(input, out d);
+                if (ok)
+                {
+                    Console.WriteLine("OK >" + d);
+                }
+                else
+                {
+                    Console.WriteLine("failed >" + input);
+                }
+            }
+        }
+
+
+
+        public static bool TryToDouble(string input, out double d)
+        {
+
+            // Unify string (no spaces, only .)
+            string output = input.Trim().Replace(" ", "").Replace(",", ".");
+
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
+
+        public static bool TryToDouble3(string input, out double d)
+        {
+
+            // Unify string (no spaces, only .)
+            string output = input.Replace(" ", String.Empty).Replace(',', '.');
+
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
+
+        public static bool TryToDouble5(string input, out double d)
+        {
+
+            // Unify string (no spaces, only .)
+            string output = input.Replace(',', '.');
+
+            if (output.IndexOf(' ') != -1)
+            {
+                output = output.Replace(" ", String.Empty);
+            }
+
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
+
+        public static bool TryToDouble6(string input, out double d)
+        {
+            bool isSpace = false;
+            bool isComma = false;
+            int countPoint = 0;
+            int l = input.Length;
+            char ch;
+            for (int j = 0; j < l; j++)
+            {
+                ch = input[j];
+                if (ch == ' ') isSpace = true;
+                else
+                if (ch == ',')
+                {
+                    isComma = true;
+                    countPoint++;
+                }
+                else
+                if (ch == '.')
+                {
+                    countPoint++;
+                }
+            }
+
+            // Unify string (no spaces, only .)
+            string output = input;
+            if (isComma)
+            {
+                output = output.Replace(',', '.');
+            }
+
+            if (isSpace)
+            {
+                output = output.Replace(" ", String.Empty);
+            }
+
+
+            if (countPoint > 1)
+            {
+                // Split it on points
+                string[] split = output.Split('.');
+
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
+
+        public static bool TryToDouble4(string input, out double d)
+        {
+
+            // Unify string (no spaces, only .)
+            string output = input.Replace(" ", String.Empty).Replace(',', '.');
+
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            d = Convert.ToDouble(output);
+            return true;
+        }
+
+
+        public static bool TryToDouble2(string input, out double d)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < input.Length; i++)
+            {
+                // Unify string (no spaces, only .)
+                if (input[i] != ' ')
+                {
+                    if (input[i] == ',') sb.Append('.');
+                    else sb.Append(input[i]);
+                }
+
+            }
+            string output = sb.ToString();
+            // Split it on points
+            string[] split = output.Split('.');
+
+            if (split.Length > 1)
+            {
+                // Take all parts except last
+                output = string.Join("", split.Take(split.Length - 1).ToArray());
+
+                // Combine token parts with last part
+                output = string.Format("{0}.{1}", output, split.Last());
+            }
+
+            // Parse double invariant
+            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+            return ret;
+        }
+
+
+        [TestMethod]
+        public void ToDouble_PerformenceTest()
+        {
+            List<string> inputs = new List<string>()
+{
+    "1.234.567,89",
+    "1 234 567,89",
+    "1 234 567.89",
+    "1,234,567.89",
+    "123456789",
+    "1234567,89",
+    "1234567.89",
+     "123ffff4567.89",
+};
+
+
+            foreach (string input in inputs)
+            {
+                double d;
+                bool ok;
+                ok = TryToDouble6(input, out d);
+                if (ok)
+                {
+                    Console.WriteLine("OK >" + d);
+                }
+                else
+                {
+                    Console.WriteLine("failed >" + input);
+                }
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble2("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double2 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+
+                    var ok = "1.234.567,89".Replace(",", ".");
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("retplace string = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+
+                    var ok = "1.234.567,89".Replace(',', '.');
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("retplace char = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble3("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double3 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble5("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double5 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble4("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double4 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+
+
+        }
+        [TestMethod]
+        public void ToDouble6_test()
+        {
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble6("1.234.567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double6  {0:N0} - 1.234.567,89 -Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+
+            {
+                Stopwatch sw;
+                sw = Stopwatch.StartNew();
+                const int PermittedRuns = 10000000;
+
+                for (int i = 0; i < PermittedRuns; i++)
+                {
+                    double d;
+                    bool ok;
+                    ok = TryToDouble6("1234567,89", out d);
+                }
+
+                sw.Stop();
+                Console.WriteLine(String.Format("try to double6  {0:N0} - 1234567,89 - Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
+            }
+        }
+
+        [TestMethod]
+        public void Convert_ToDouble()
+        {
+            const int Iterations = 1000000;
+            {
+                double d = 10;
+                object dobj = d;
+                double d1 = 0;
+                Stopwatch sw = Stopwatch.StartNew();
+                for (int i = 0; i < Iterations; i++)
+                {
+                    d1 = Convert.ToDouble(dobj);
+                }
+                sw.Stop();
+                Console.WriteLine("Convert.ToDouble : {0} ticks {1} ms", sw.ElapsedTicks, sw.ElapsedMilliseconds);
+            }
+
+            {
+                double d = 10;
+                object o = d;
+                Double ? d1 = 0;
+                Stopwatch sw = Stopwatch.StartNew();
+                for (int i = 0; i < Iterations; i++)
+                {
+                    d1 = (o is double) ? (double)o
+            : (o is IConvertible) ? (o as IConvertible).ToDouble(null)
+            : double.Parse(o.ToString());
+
+                }
+                sw.Stop();
+                Console.WriteLine("is double : {0} ticks {1} ms", sw.ElapsedTicks, sw.ElapsedMilliseconds);
+            }
+
+        }
+
+        [TestMethod]
+        public void TypeOfTest()
+        {
+            const int Iterations = 1000000;
+            Stopwatch sw = Stopwatch.StartNew();
+            for (int i = 0; i < Iterations; i++)
+            {
+                Type t = typeof(String);
+            }
+            sw.Stop();
+            Console.WriteLine("typeof(Test): {0} ticks {1} ms", sw.ElapsedTicks, sw.ElapsedMilliseconds);
+
+            sw = Stopwatch.StartNew();
+            for (int i = 0; i < Iterations; i++)
+            {
+                Type t = System.Type.GetType("System.String");
+            }
+            sw.Stop();
+            Console.WriteLine("Type.GetType(String): {0} ticks {1} ms", sw.ElapsedTicks, sw.ElapsedMilliseconds);
+
+            {
+                string str = "String";
+                sw = Stopwatch.StartNew();
+                for (int i = 0; i < Iterations; i++)
+                {
+                    Type t = str.GetType();
+                }
+                sw.Stop();
+                Console.WriteLine("String.GetType(): {0} ticks {1} ms", sw.ElapsedTicks, sw.ElapsedMilliseconds);
+            }
+
+            {
+                string str = "String";
+                object strObj = str;
+                string str2;
+                sw = Stopwatch.StartNew();
+                for (int i = 0; i < Iterations; i++)
+                {
+                    str2 = strObj as string;
+                }
+                sw.Stop();
+                Console.WriteLine("strObj as string : {0} ticks {1} ms", sw.ElapsedTicks, sw.ElapsedMilliseconds);
+            }
+        }
+
+        [TestMethod]
+       public  void TryCatchTest()
         {
             var input = "Hello world, This is test string";
             {
@@ -609,395 +1091,6 @@ namespace com.sgcombo.RpnLib
     public class Mathematical
     {
 
-
-        [TestMethod]
-        public void ToDoubleTest()
-        {
-            List<string> inputs = new List<string>()
-{
-    "1.234.567,89",
-    "1 234 567,89",
-    "1 234 567.89",
-    "1,234,567.89",
-    "123456789",
-    "1234567,89",
-    "1234567.89",
-     "123ffff4567.89",
-};
-
-
-            foreach (string input in inputs)
-            {
-                double d;
-                bool ok;
-                ok = TryToDouble6(input, out d);
-                if (ok)
-                {
-                    Console.WriteLine("OK >" + d);
-                }
-                else
-                {
-                    Console.WriteLine("failed >" + input);
-                }
-            }
-        }
-
-            [TestMethod]
-        public void ToDoublePerformenceTest()
-        {
-            List<string> inputs = new List<string>()
-{
-    "1.234.567,89",
-    "1 234 567,89",
-    "1 234 567.89",
-    "1,234,567.89",
-    "123456789",
-    "1234567,89",
-    "1234567.89",
-     "123ffff4567.89",
-};
-
-
-            foreach (string input in inputs)
-            {
-                double d;
-                bool ok;
-                ok = TryToDouble6(input, out d);
-                if (ok)
-                {
-                    Console.WriteLine("OK >" + d);
-                }
-                else
-                {
-                    Console.WriteLine("failed >" + input);
-                }
-            }
-
-            {
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
-                const int PermittedRuns = 10000000;
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-                    double d;
-                    bool ok;
-                    ok = TryToDouble("1.234.567,89", out d);
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("try to double = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
-
-            {
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
-                const int PermittedRuns = 10000000;
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-                    double d;
-                    bool ok;
-                    ok = TryToDouble2("1.234.567,89", out d);
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("try to double2 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
-
-            {
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
-                const int PermittedRuns = 10000000;
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-
-                    var ok = "1.234.567,89".Replace(",", ".");
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("retplace string = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
-
-            {
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
-                const int PermittedRuns = 10000000;
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-
-                    var ok = "1.234.567,89".Replace(',', '.');
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("retplace char = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
-
-
-            {
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
-                const int PermittedRuns = 10000000;
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-                    double d;
-                    bool ok;
-                    ok = TryToDouble3("1.234.567,89", out d);
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("try to double3 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
-
-            {
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
-                const int PermittedRuns = 10000000;
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-                    double d;
-                    bool ok;
-                    ok = TryToDouble5("1.234.567,89", out d);
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("try to double5 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
-
-            {
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
-                const int PermittedRuns = 10000000;
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-                    double d;
-                    bool ok;
-                    ok = TryToDouble4("1.234.567,89", out d);
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("try to double4 = {0:N0} Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
-
-            {
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
-                const int PermittedRuns = 10000000;
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-                    double d;
-                    bool ok;
-                    ok = TryToDouble6("1.234.567,89", out d);
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("try to double6  {0:N0} - 1.234.567,89 -Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
-
-            {
-                Stopwatch sw;
-                sw = Stopwatch.StartNew();
-                const int PermittedRuns = 10000000;
-
-                for (int i = 0; i < PermittedRuns; i++)
-                {
-                    double d;
-                    bool ok;
-                    ok = TryToDouble6("1234567,89", out d);
-                }
-
-                sw.Stop();
-                Console.WriteLine(String.Format("try to double6  {0:N0} - 1234567,89 - Milliseconds of PermittedRuns {1:N0} ", sw.ElapsedMilliseconds, PermittedRuns));
-            }
-        }
-
-        public static bool TryToDouble(string input, out double d)
-        {
-
-            // Unify string (no spaces, only .)
-            string output = input.Trim().Replace(" ", "").Replace(",", ".");
-
-            // Split it on points
-            string[] split = output.Split('.');
-
-            if (split.Length > 1)
-            {
-                // Take all parts except last
-                output = string.Join("", split.Take(split.Length - 1).ToArray());
-
-                // Combine token parts with last part
-                output = string.Format("{0}.{1}", output, split.Last());
-            }
-
-            // Parse double invariant
-            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
-            return ret;
-        }
-
-        public static bool TryToDouble3(string input, out double d)
-        {
-
-            // Unify string (no spaces, only .)
-            string output = input.Replace(" ", String.Empty).Replace(',', '.');
-
-            // Split it on points
-            string[] split = output.Split('.');
-
-            if (split.Length > 1)
-            {
-                // Take all parts except last
-                output = string.Join("", split.Take(split.Length - 1).ToArray());
-
-                // Combine token parts with last part
-                output = string.Format("{0}.{1}", output, split.Last());
-            }
-
-            // Parse double invariant
-            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
-            return ret;
-        }
-
-        public static bool TryToDouble5(string input, out double d)
-        {
-
-            // Unify string (no spaces, only .)
-            string output = input.Replace(',', '.');
-
-            if (output.IndexOf(' ') != -1) {
-                output = output.Replace(" ", String.Empty);
-            }
-
-            // Split it on points
-            string[] split = output.Split('.');
-
-            if (split.Length > 1)
-            {
-                // Take all parts except last
-                output = string.Join("", split.Take(split.Length - 1).ToArray());
-
-                // Combine token parts with last part
-                output = string.Format("{0}.{1}", output, split.Last());
-            }
-
-            // Parse double invariant
-            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
-            return ret;
-        }
-
-        public static bool TryToDouble6(string input, out double d)
-        {
-            bool isSpace = false;
-            bool isComma = false;
-            int countPoint = 0;
-            int l = input.Length;
-            char ch;
-            for (int j = 0; j < l; j++)
-            {
-                ch = input[j];
-                if (ch == ' ') isSpace = true;
-                else
-                if (ch == ',')
-                {
-                    isComma = true;
-                    countPoint++;
-                } else
-                if (ch == '.')
-                {
-                    countPoint++;
-                }
-            }
-
-            // Unify string (no spaces, only .)
-            string output = input;
-            if (isComma)
-            {
-                output = output.Replace(',', '.');
-            }
-
-            if (isSpace)
-            {
-                output = output.Replace(" ", String.Empty);
-            }
-
-
-            if (countPoint > 1)
-            {
-                // Split it on points
-                string[] split = output.Split('.');
-
-                    // Take all parts except last
-                    output = string.Join("", split.Take(split.Length - 1).ToArray());
-
-                    // Combine token parts with last part
-                    output = string.Format("{0}.{1}", output, split.Last());
-            }
-
-            // Parse double invariant
-            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
-            return ret;
-        }
-
-        public static bool TryToDouble4(string input, out double d)
-        {
-
-            // Unify string (no spaces, only .)
-            string output = input.Replace(" ", String.Empty).Replace(',', '.');
-
-            // Split it on points
-            string[] split = output.Split('.');
-
-            if (split.Length > 1)
-            {
-                // Take all parts except last
-                output = string.Join("", split.Take(split.Length - 1).ToArray());
-
-                // Combine token parts with last part
-                output = string.Format("{0}.{1}", output, split.Last());
-            }
-
-            // Parse double invariant
-            d = Convert.ToDouble(output);
-            return true;
-        }
-
-
-        public static bool TryToDouble2(string input, out double d)
-        {
-          
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < input.Length; i++)
-            {
-                // Unify string (no spaces, only .)
-                if (input[i] != ' ')
-                {
-                    if (input[i] == ',') sb.Append('.');
-                    else sb.Append(input[i]);
-                }
-                
-            }
-            string output = sb.ToString();
-            // Split it on points
-            string[] split = output.Split('.');
-
-            if (split.Length > 1)
-            {
-                // Take all parts except last
-                output = string.Join("", split.Take(split.Length - 1).ToArray());
-
-                // Combine token parts with last part
-                output = string.Format("{0}.{1}", output, split.Last());
-            }
-
-            // Parse double invariant
-            bool ret = double.TryParse(output, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
-            return ret;
-        }
 
 
 
